@@ -1,0 +1,8 @@
+// 1.21.1	2026-09-20T16:41:36.4964851	Registrate Provider for createwarfare [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+6de2e027f99742d31a55ba5bb4bd7d85818483b1 assets/createwarfare/blockstates/test_block.json
+cbc6db6b94f1a08e2005a687eb55d44400a5de86 assets/createwarfare/lang/en_ud.json
+10dd6f09c2804dba348ba71f4c7ed5a6774f568a assets/createwarfare/lang/en_us.json
+a70428c828b0037ce96e135fedd96dad832625a0 assets/createwarfare/models/block/test_block.json
+a838220e7caa5e13f16676624cb898bfd3565afe assets/createwarfare/models/item/geiger_counter.json
+af1cccc6f8fe98a8b1410a38b087e37f1778d02c assets/createwarfare/models/item/test_block.json
+97bdf3257efc197e11b20fdc0f7caeae1041b60c data/createwarfare/loot_table/blocks/test_block.json

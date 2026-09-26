@@ -19,6 +19,45 @@ sourceSets.main.resources {
 }
 
 repositories {
+    maven {
+        name = "Create"
+        url = "https://maven.createmod.net"
+    }
+
+    maven {
+        name = "Registrate"
+        url = "https://maven.ithundxr.dev/snapshots"
+    }
+
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+
+    exclusiveContent { // Sable
+        forRepository {
+            maven {
+                url = "https://maven.ryanhcode.dev/releases"
+                name = "RyanHCode Maven"
+            }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable")
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
+
+
+    maven {
+        name = "BlameJared"
+        url = "https://maven.blamejared.com"
+    }
+
+    maven {
+        name = "Fuzs"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+
 }
 
 base {
@@ -76,6 +115,22 @@ configurations {
 }
 
 dependencies {
+    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") {
+        transitive = false
+    }
+
+    implementation("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}")
+
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
+    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
+
+    implementation("com.tterrag.registrate:Registrate:${registrate_version}")
+
+    implementation("maven.modrinth:oWaK0Q19:${aeronautics_version}")
+
+    compileOnly("dev.ryanhcode.sable:sable-common-1.21.1:${sable_version}")
+    runtimeOnly("dev.ryanhcode.sable:sable-neoforge-1.21.1:${sable_version}")
+
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
