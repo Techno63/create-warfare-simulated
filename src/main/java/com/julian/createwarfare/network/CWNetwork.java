@@ -13,16 +13,11 @@ public final class CWNetwork {
     }
 
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        event.registrar("1").playToClient(
-                MushroomCapPayload.TYPE,
-                MushroomCapPayload.STREAM_CODEC,
-                MushroomCapPayload::handle
-        );
 
         event.registrar("1").playToClient(
-                FireballPayload.TYPE,
-                FireballPayload.STREAM_CODEC,
-                FireballPayload::handle
+                WavePayload.TYPE,
+                WavePayload.STREAM_CODEC,
+                WavePayload::handle
         );
     }
 }

@@ -28,6 +28,7 @@ public final class ShockwaveEffect {
         ShockwaveParticleOptions options =
                 new ShockwaveParticleOptions(
                         radius,
+                        speed,
                         duration
                 );
 

@@ -13,21 +13,25 @@ import net.minecraft.util.Mth;
 public class ShockwaveParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
-    private final float maxSize;
+    private final float maxRadius;
+    private final float speed;
 
     protected ShockwaveParticle(
             ClientLevel level,
             double x,
             double y,
             double z,
-            float maxSize,
+            float maxRadius,
+            float speed,
             int lifetime,
             SpriteSet sprites
     ) {
         super(level, x, y, z);
 
         this.sprites = sprites;
-        this.maxSize = maxSize;
+        this.maxRadius = maxRadius;
+        this.speed = speed;
+
         this.lifetime = Math.max(1, lifetime);
         this.quadSize = 0.01f;
 
@@ -48,22 +52,28 @@ public class ShockwaveParticle extends TextureSheetParticle {
     public void tick() {
         super.tick();
 
-        float progress = (float) this.age / (float) this.lifetime;
+        float radius =
+                Math.min(
+                        maxRadius,
+                        this.age * speed
+                );
 
-        this.quadSize = Mth.lerp(
-                progress,
-                0.01f,
-                this.maxSize
-        );
+        this.quadSize = radius;
 
-        int fadeTicks = 30;
+        int fadeTicks = Math.min(30, this.lifetime);
 
         if (this.age >= this.lifetime - fadeTicks) {
             float fadeProgress =
                     (float) (this.age - (this.lifetime - fadeTicks))
                             / (float) fadeTicks;
 
-            this.alpha = 1.0f - Mth.clamp(fadeProgress, 0.0f, 1.0f);
+            this.alpha =
+                    1.0f -
+                            Mth.clamp(
+                                    fadeProgress,
+                                    0.0f,
+                                    1.0f
+                            );
         } else {
             this.alpha = 1.0f;
         }
@@ -85,12 +95,16 @@ public class ShockwaveParticle extends TextureSheetParticle {
         float y = (float) (py - camera.getPosition().y());
         float z = (float) (pz - camera.getPosition().z());
 
-        float size = this.getQuadSize(partialTick);
+        float radius =
+                Math.min(
+                        maxRadius,
+                        (this.age + partialTick) * speed
+                );
 
-        float minX = x - size;
-        float maxX = x + size;
-        float minZ = z - size;
-        float maxZ = z + size;
+        float minX = x - radius;
+        float maxX = x + radius;
+        float minZ = z - radius;
+        float maxZ = z + radius;
 
         float u0 = this.getU0();
         float u1 = this.getU1();
@@ -146,7 +160,12 @@ public class ShockwaveParticle extends TextureSheetParticle {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    public static class Provider implements ParticleProvider<ShockwaveParticleOptions> {
+    public boolean shouldCull() {
+        return false;
+    }
+
+    public static class Provider
+            implements ParticleProvider<ShockwaveParticleOptions> {
 
         private final SpriteSet sprites;
 
@@ -170,7 +189,8 @@ public class ShockwaveParticle extends TextureSheetParticle {
                     x,
                     y,
                     z,
-                    options.getSize(),
+                    options.getRadius(),
+                    options.getSpeed(),
                     options.getDuration(),
                     sprites
             );

@@ -4,7 +4,7 @@ import com.julian.createwarfare.CreateWarfare;
 import com.julian.createwarfare.effects.server.*;
 import com.julian.createwarfare.explosions.post.radiation.RadiationExposure;
 import com.julian.createwarfare.explosions.post.radiation.RadiationChunks;
-import com.julian.createwarfare.explosions.post.ShockwavePost;
+import com.julian.createwarfare.explosions.post.*;
 import com.julian.createwarfare.items.GeigerCounterItem;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,11 +19,14 @@ public class CWServerTicker {
     public static void onServerTick(ServerTickEvent.Post event) {
 
         //Effects
-        SmokeEffect.tick();
         PressureWaveEffect.tick();
+        SoundWaveEffect.tick();
+        IncinerationWaveEffect.tick();
 
         //Post
         ShockwavePost.tick();
+        MushroomCapPost.tick();
+        SmokeRingPost.tick();
 
         for (ServerLevel level :
                 event.getServer().getAllLevels()) {

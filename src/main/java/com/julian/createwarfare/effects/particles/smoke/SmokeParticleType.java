@@ -1,9 +1,10 @@
 package com.julian.createwarfare.effects.particles.smoke;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+
+import com.mojang.serialization.MapCodec;
 
 public class SmokeParticleType extends ParticleType<SmokeParticleOptions> {
 
@@ -13,11 +14,11 @@ public class SmokeParticleType extends ParticleType<SmokeParticleOptions> {
 
     @Override
     public MapCodec<SmokeParticleOptions> codec() {
-        return MapCodec.unit(new SmokeParticleOptions(0.2f, 100));
+        return SmokeParticleOptions.CODEC;
     }
 
     @Override
     public StreamCodec<? super RegistryFriendlyByteBuf, SmokeParticleOptions> streamCodec() {
-        return SmokeParticleOptions.STREAM_CODEC;
+        return SmokeParticleOptions.STREAM_CODEC.cast();
     }
 }

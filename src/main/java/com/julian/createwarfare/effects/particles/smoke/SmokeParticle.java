@@ -2,37 +2,54 @@ package com.julian.createwarfare.effects.particles.smoke;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
 public class SmokeParticle extends TextureSheetParticle {
 
-    private final double riseSpeed;
+    private final float baseSize;
+    private final int maxLifetime;
 
-    protected SmokeParticle(
+    private SmokeParticle(
             ClientLevel level,
             double x,
             double y,
             double z,
-            SpriteSet sprites,
-            double riseSpeed,
-            int lifetime
+            double xd,
+            double yd,
+            double zd,
+            SmokeParticleOptions options,
+            SpriteSet spriteSet,
+            RandomSource random
     ) {
-        super(level, x, y, z);
+        super(level, x, y, z, xd, yd, zd);
 
-        this.riseSpeed = riseSpeed;
-        this.quadSize = 2.0f + this.random.nextFloat() * 2.0f;
-        this.yd = riseSpeed;
-        this.pickSprite(sprites);
-        this.lifetime = Math.max(
-                1,
-                Math.round(lifetime * (1f + this.random.nextFloat() * 0.5f))
-        );
+        this.baseSize = options.getSize();
+        this.maxLifetime = options.getDuration();
+
+        this.lifetime = maxLifetime;
+        this.gravity = 0.0f;
+        this.friction = 0.96f;
+        this.hasPhysics = false;
+
+        this.quadSize = baseSize;
+
+        this.setSprite(spriteSet.get(random));
+        this.setAlpha(1.0f);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        this.yd = riseSpeed;
+        float fadeStart = maxLifetime * 0.8f;
+
+        if (age >= fadeStart) {
+            float progress = (age - fadeStart) / (maxLifetime - fadeStart);
+            setAlpha(1.0f - Mth.clamp(progress, 0.0f, 1.0f));
+        } else {
+            setAlpha(1.0f);
+        }
     }
 
     @Override
@@ -42,10 +59,10 @@ public class SmokeParticle extends TextureSheetParticle {
 
     public static class Provider implements ParticleProvider<SmokeParticleOptions> {
 
-        private final SpriteSet sprites;
+        private final SpriteSet spriteSet;
 
-        public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
+        public Provider(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
         }
 
         @Override
@@ -64,9 +81,12 @@ public class SmokeParticle extends TextureSheetParticle {
                     x,
                     y,
                     z,
-                    sprites,
-                    options.getRiseSpeed(),
-                    options.getLifetime()
+                    xd,
+                    yd,
+                    zd,
+                    options,
+                    spriteSet,
+                    RandomSource.create()
             );
         }
     }

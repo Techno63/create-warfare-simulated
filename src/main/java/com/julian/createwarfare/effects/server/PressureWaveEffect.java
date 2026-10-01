@@ -8,6 +8,7 @@ import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -20,6 +21,8 @@ import java.util.Set;
 
 public class PressureWaveEffect {
 
+    private static final float NANOS_PER_TICK = 50_000_000.0f;
+
     private static final List<PressureWave> WAVES = new ArrayList<>();
 
     public static void start(
@@ -30,16 +33,14 @@ public class PressureWaveEffect {
             float strength,
             boolean falloff
     ) {
-        WAVES.add(
-                new PressureWave(
-                        level,
-                        pos.getCenter(),
-                        speed,
-                        radius,
-                        strength,
-                        falloff
-                )
-        );
+        WAVES.add(new PressureWave(
+                level,
+                pos.getCenter(),
+                Math.max(speed, 0.01f),
+                Math.max(radius, 0.01f),
+                strength,
+                falloff
+        ));
     }
 
     public static void tick() {
@@ -58,20 +59,12 @@ public class PressureWaveEffect {
         private final float radius;
         private final float strength;
         private final boolean falloff;
+        private final long startNanos = System.nanoTime();
 
         private final Set<Integer> affectedEntities = new HashSet<>();
         private final Set<Object> affectedSubLevels = new HashSet<>();
 
-        private int ticks;
-
-        private PressureWave(
-                ServerLevel level,
-                Vec3 center,
-                float speed,
-                float radius,
-                float strength,
-                boolean falloff
-        ) {
+        private PressureWave(ServerLevel level, Vec3 center, float speed, float radius, float strength, boolean falloff) {
             this.level = level;
             this.center = center;
             this.speed = speed;
@@ -81,23 +74,16 @@ public class PressureWaveEffect {
         }
 
         private boolean tick() {
-            ticks++;
-
-            double radiusSqr = radius * radius;
+            float elapsedTicks = (System.nanoTime() - startNanos) / NANOS_PER_TICK;
+            float travelled = Math.min(elapsedTicks * speed, radius);
+            double travelledSqr = (double) travelled * travelled;
 
             AABB area = new AABB(
-                    center.x - radius,
-                    center.y - radius,
-                    center.z - radius,
-                    center.x + radius,
-                    center.y + radius,
-                    center.z + radius
+                    center.x - travelled, center.y - travelled, center.z - travelled,
+                    center.x + travelled, center.y + travelled, center.z + travelled
             );
 
-            for (LivingEntity entity : level.getEntitiesOfClass(
-                    LivingEntity.class,
-                    area
-            )) {
+            for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, area)) {
                 if (!entity.isAlive() || entity.isSpectator()) {
                     continue;
                 }
@@ -108,84 +94,52 @@ public class PressureWaveEffect {
 
                 double distanceSqr = entity.distanceToSqr(center);
 
-                if (distanceSqr > radiusSqr) {
-                    continue;
-                }
-
-                double distance = Math.sqrt(distanceSqr);
-
-                int delay = Math.max(
-                        1,
-                        (int) Math.ceil(distance / speed)
-                );
-
-                if (ticks < delay) {
+                if (distanceSqr > travelledSqr) {
                     continue;
                 }
 
                 affectedEntities.add(entity.getId());
-
-                applyEntityEffect(entity, distance);
+                applyEntityEffect(entity, Math.sqrt(distanceSqr));
             }
 
-            BoundingBox3d sableArea = new BoundingBox3d(
-                    area.minX,
-                    area.minY,
-                    area.minZ,
-                    area.maxX,
-                    area.maxY,
-                    area.maxZ
+            applySableEffect(
+                    new BoundingBox3d(area.minX, area.minY, area.minZ, area.maxX, area.maxY, area.maxZ),
+                    travelledSqr
             );
 
-            applySableEffect(sableArea, radiusSqr);
-
-            return ticks < Math.ceil(radius / speed);
+            return travelled < radius;
         }
 
-        private void applyEntityEffect(
-                LivingEntity entity,
-                double distance
-        ) {
-            float strengthMultiplier =
-                    getStrengthMultiplier(distance);
-
-            float effectiveStrength =
-                    strength * strengthMultiplier;
-
-            Vec3 direction =
-                    entity.position().subtract(center);
+        private Vec3 directionFrom(Vec3 point) {
+            Vec3 direction = point.subtract(center);
 
             if (direction.lengthSqr() < 0.0001) {
-                direction =
-                        new Vec3(1.0, 0.0, 0.0);
-            } else {
-                direction = direction.normalize();
+                return new Vec3(1.0, 0.0, 0.0);
             }
 
-            double knockback =
-                    effectiveStrength * 0.12;
+            return direction.normalize();
+        }
 
-            double upwardForce =
-                    effectiveStrength * 0.08;
+        private void applyEntityEffect(LivingEntity entity, double distance) {
+            float effectiveStrength = strength * getStrengthMultiplier(distance);
+            Vec3 direction = directionFrom(entity.position());
 
-            Vec3 velocity =
-                    entity.getDeltaMovement();
+            double knockback = effectiveStrength * 0.12;
+            double upward = effectiveStrength * 0.08;
+
+            Vec3 velocity = entity.getDeltaMovement();
 
             entity.setDeltaMovement(
                     velocity.x + direction.x * knockback,
-                    velocity.y + direction.y * knockback + upwardForce,
+                    velocity.y + direction.y * knockback + upward,
                     velocity.z + direction.z * knockback
             );
 
             entity.hurtMarked = true;
         }
 
-        private void applySableEffect(
-                BoundingBox3d area,
-                double radiusSqr
-        ) {
-            for (SubLevelAccess subLevel :
-                    SableCompanion.INSTANCE.getAllIntersecting(level, area)) {
+        private void applySableEffect(BoundingBox3d area, double travelledSqr) {
+            for (SubLevelAccess subLevel : SableCompanion.INSTANCE.getAllIntersecting(level, area)) {
 
                 if (!(subLevel instanceof ServerSubLevel serverSubLevel)) {
                     continue;
@@ -197,137 +151,54 @@ public class PressureWaveEffect {
                     continue;
                 }
 
-                BoundingBox3dc boundingBox =
-                        subLevel.boundingBox();
+                BoundingBox3dc box = subLevel.boundingBox();
 
-                double closestX = Math.max(
-                        boundingBox.minX(),
-                        Math.min(center.x, boundingBox.maxX())
+                Vec3 closest = new Vec3(
+                        Math.max(box.minX(), Math.min(center.x, box.maxX())),
+                        Math.max(box.minY(), Math.min(center.y, box.maxY())),
+                        Math.max(box.minZ(), Math.min(center.z, box.maxZ()))
                 );
 
-                double closestY = Math.max(
-                        boundingBox.minY(),
-                        Math.min(center.y, boundingBox.maxY())
-                );
+                double distanceSqr = closest.distanceToSqr(center);
 
-                double closestZ = Math.max(
-                        boundingBox.minZ(),
-                        Math.min(center.z, boundingBox.maxZ())
-                );
-
-                Vec3 closestPoint = new Vec3(
-                        closestX,
-                        closestY,
-                        closestZ
-                );
-
-                double distanceSqr =
-                        closestPoint.distanceToSqr(center);
-
-                if (distanceSqr > radiusSqr) {
+                if (distanceSqr > travelledSqr) {
                     continue;
                 }
 
-                double distance =
-                        Math.sqrt(distanceSqr);
-
-                int delay = Math.max(
-                        1,
-                        (int) Math.ceil(distance / speed)
-                );
-
-                if (ticks < delay) {
-                    continue;
-                }
-
-                RigidBodyHandle handle =
-                        RigidBodyHandle.of(serverSubLevel);
+                RigidBodyHandle handle = RigidBodyHandle.of(serverSubLevel);
 
                 if (handle == null || !handle.isValid()) {
                     continue;
                 }
 
                 affectedSubLevels.add(id);
-
-                applySableImpulse(
-                        serverSubLevel,
-                        handle,
-                        closestPoint,
-                        distance
-                );
+                applySableImpulse(serverSubLevel, handle, closest, Math.sqrt(distanceSqr));
             }
         }
 
-        private void applySableImpulse(
-                ServerSubLevel subLevel,
-                RigidBodyHandle handle,
-                Vec3 point,
-                double distance
-        ) {
-            float strengthMultiplier =
-                    getStrengthMultiplier(distance);
+        private void applySableImpulse(ServerSubLevel subLevel, RigidBodyHandle handle, Vec3 point, double distance) {
+            double effectiveStrength = strength * getStrengthMultiplier(distance);
+            Vec3 direction = directionFrom(point);
 
-            double effectiveStrength =
-                    strength * strengthMultiplier;
+            Vector3d localPosition = subLevel.logicalPose()
+                    .transformPositionInverse(new Vector3d(center.x, center.y, center.z));
 
-            Vec3 direction =
-                    point.subtract(center);
+            Vector3d localForce = subLevel.logicalPose()
+                    .transformNormalInverse(new Vector3d(direction.x, direction.y, direction.z));
 
-            if (direction.lengthSqr() < 0.0001) {
-                direction =
-                        new Vec3(1.0, 0.0, 0.0);
-            } else {
-                direction = direction.normalize();
-            }
+            double sablePushMultiplier = 2.0;
+            localForce.mul(effectiveStrength * sablePushMultiplier);
+            localForce.y += effectiveStrength * 0.005;
 
-            Vector3d localPosition =
-                    subLevel.logicalPose().transformPositionInverse(
-                            new Vector3d(
-                                    center.x,
-                                    center.y,
-                                    center.z
-                            )
-                    );
-
-            Vector3d localForce =
-                    subLevel.logicalPose().transformNormalInverse(
-                            new Vector3d(
-                                    direction.x,
-                                    direction.y,
-                                    direction.z
-                            )
-                    );
-
-            double impulseStrength =
-                    effectiveStrength * 16.0;
-
-            localForce.mul(impulseStrength);
-
-            localForce.y += effectiveStrength * 0.02;
-
-            handle.applyImpulseAtPoint(
-                    localPosition,
-                    localForce
-            );
+            handle.applyImpulseAtPoint(localPosition, localForce);
         }
 
-        private float getStrengthMultiplier(
-                double distance
-        ) {
+        private float getStrengthMultiplier(double distance) {
             if (!falloff) {
                 return 1.0f;
             }
 
-            float strengthMultiplier =
-                    1.0f - (float) (distance / radius) * 0.5f;
-
-            return Math.max(
-                    0.5f,
-                    Math.min(
-                            1.0f,
-                            strengthMultiplier
-                    )
-            );
+            return Mth.clamp(1.0f - (float) (distance / radius) * 0.5f, 0.5f, 1.0f);
         }
     }
 }

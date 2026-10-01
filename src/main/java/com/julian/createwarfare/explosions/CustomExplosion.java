@@ -336,7 +336,7 @@ public class CustomExplosion {
             }
 
             entity.hurt(
-                    level.damageSources().generic(),
+                    level.damageSources().explosion(null, null),
                     damage
             );
         }

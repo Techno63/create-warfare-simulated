@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "createwarfare:item/weapons_grade_uranium"
+  }
+}

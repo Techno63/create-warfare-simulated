@@ -1,5 +1,11 @@
 {
+  "block.createwarfare.centrifuge": "ǝbnɟıɹʇuǝƆ",
   "block.createwarfare.test_block": "ʞɔoןᗺ ʇsǝ⟘",
+  "item.createwarfare.depleted_uranium": "ɯnıuɐɹ∩ pǝʇǝןdǝᗡ",
   "item.createwarfare.geiger_counter": "ɹǝʇunoƆ ɹǝbıǝ⅁",
+  "item.createwarfare.highly_enriched_uranium": "ɯnıuɐɹ∩ pǝɥɔıɹuƎ-ʎןɥbıH",
+  "item.createwarfare.low_enriched_uranium": "ɯnıuɐɹ∩ pǝɥɔıɹuƎ-ʍoꞀ",
+  "item.createwarfare.natural_uranium": "ɯnıuɐɹ∩ ןɐɹnʇɐN",
+  "item.createwarfare.weapons_grade_uranium": "ɯnıuɐɹ∩ ǝpɐɹ⅁-suodɐǝM",
   "itemGroup.createwarfare.base_tab": "qɐ⟘ ǝsɐᗺ"
 }

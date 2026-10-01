@@ -1,37 +1,42 @@
 package com.julian.createwarfare.effects.particles.smoke;
 
 import com.julian.createwarfare.registry.CWParticles;
+import com.mojang.serialization.MapCodec;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 public class SmokeParticleOptions implements ParticleOptions {
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, SmokeParticleOptions> STREAM_CODEC =
+    public static final MapCodec<SmokeParticleOptions> CODEC = MapCodec.unit(
+            new SmokeParticleOptions(1.0f, 20)
+    );
+
+    public static final StreamCodec<ByteBuf, SmokeParticleOptions> STREAM_CODEC =
             StreamCodec.composite(
                     ByteBufCodecs.FLOAT,
-                    SmokeParticleOptions::getRiseSpeed,
-                    ByteBufCodecs.INT,
-                    SmokeParticleOptions::getLifetime,
+                    options -> options.size,
+                    ByteBufCodecs.VAR_INT,
+                    options -> options.duration,
                     SmokeParticleOptions::new
             );
 
-    private final float riseSpeed;
-    private final int lifetime;
+    private final float size;
+    private final int duration;
 
-    public SmokeParticleOptions(float riseSpeed, int lifetime) {
-        this.riseSpeed = riseSpeed;
-        this.lifetime = lifetime;
+    public SmokeParticleOptions(float size, int duration) {
+        this.size = Math.max(size, 0.01f);
+        this.duration = Math.max(duration, 1);
     }
 
-    public float getRiseSpeed() {
-        return riseSpeed;
+    public float getSize() {
+        return size;
     }
 
-    public int getLifetime() {
-        return lifetime;
+    public int getDuration() {
+        return duration;
     }
 
     @Override

@@ -1,0 +1,16 @@
+{
+  "type": "createwarfare:centrifuging",
+  "ingredient": {
+    "item": "createwarfare:low_enriched_uranium"
+  },
+  "primary_output": {
+    "id": "createwarfare:highly_enriched_uranium",
+    "count": 1
+  },
+  "secondary_output": {
+    "id": "createwarfare:depleted_uranium",
+    "count": 1
+  },
+  "processing_time": 1200,
+  "success_chance": 0.1
+}

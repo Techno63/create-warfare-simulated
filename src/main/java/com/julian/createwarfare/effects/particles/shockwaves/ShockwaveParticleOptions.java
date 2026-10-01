@@ -9,30 +9,48 @@ import net.minecraft.network.codec.StreamCodec;
 public class ShockwaveParticleOptions implements ParticleOptions {
 
     public static final MapCodec<ShockwaveParticleOptions> CODEC =
-            MapCodec.unit(new ShockwaveParticleOptions(20.0F, 100));
+            MapCodec.unit(
+                    new ShockwaveParticleOptions(
+                            20.0f,
+                            1.0f,
+                            20
+                    )
+            );
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ShockwaveParticleOptions> STREAM_CODEC =
             StreamCodec.of(
                     (buf, options) -> {
-                        buf.writeFloat(options.size);
+                        buf.writeFloat(options.radius);
+                        buf.writeFloat(options.speed);
                         buf.writeInt(options.duration);
                     },
                     buf -> new ShockwaveParticleOptions(
+                            buf.readFloat(),
                             buf.readFloat(),
                             buf.readInt()
                     )
             );
 
-    private final float size;
+    private final float radius;
+    private final float speed;
     private final int duration;
 
-    public ShockwaveParticleOptions(float size, int duration) {
-        this.size = size;
+    public ShockwaveParticleOptions(
+            float radius,
+            float speed,
+            int duration
+    ) {
+        this.radius = radius;
+        this.speed = speed;
         this.duration = duration;
     }
 
-    public float getSize() {
-        return size;
+    public float getRadius() {
+        return radius;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 
     public int getDuration() {
