@@ -1,16 +1,25 @@
-// 1.21.1	2026-09-27T15:28:56.1203246	Registrate Provider for createwarfare [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-10-03T19:58:49.0361863	Registrate Provider for createwarfare [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 5ec07dc673a588947adf1e7392a46f109d55bd27 assets/createwarfare/blockstates/centrifuge.json
+646884ae64c70e70d3bda7c036f48d0d5ca9816c assets/createwarfare/blockstates/deepslate_uranium_ore.json
 6de2e027f99742d31a55ba5bb4bd7d85818483b1 assets/createwarfare/blockstates/test_block.json
-0c70f11ed317bbe733e12946bdc544d457d9d01d assets/createwarfare/lang/en_ud.json
-b1b50ca295e23489ffe69b18cd98d38a93fb86eb assets/createwarfare/lang/en_us.json
+7026001d46432d9050578cd521f363500a4d2ace assets/createwarfare/blockstates/uranium_ore.json
+713e868089adb7bb66dc1cc26765e7ea63feb4bb assets/createwarfare/lang/en_ud.json
+f8194cd240d2dd84d60749473ef129abbf02c672 assets/createwarfare/lang/en_us.json
+209150dbe39ec6c167d4748f2851664c4d77069b assets/createwarfare/models/block/deepslate_uranium_ore.json
 a70428c828b0037ce96e135fedd96dad832625a0 assets/createwarfare/models/block/test_block.json
+0a01a4452d21430ed4e2f0f28c434bd719520ff2 assets/createwarfare/models/block/uranium_ore.json
 1e6b75c3ce0d5d040e8437e3d8a907ff80b431aa assets/createwarfare/models/item/centrifuge.json
+da93a3ffec0fc0146db88153244e6738533a44c7 assets/createwarfare/models/item/deepslate_uranium_ore.json
 ded6da399f3e16218b5194f6023b13cfeafa61c1 assets/createwarfare/models/item/depleted_uranium.json
-a838220e7caa5e13f16676624cb898bfd3565afe assets/createwarfare/models/item/geiger_counter.json
 86e8a299da186dd03a261b38fc215f3753bd71f1 assets/createwarfare/models/item/highly_enriched_uranium.json
 7e2f88a6c9e904fc4249a724f27e3561989a85a2 assets/createwarfare/models/item/low_enriched_uranium.json
 922651f0beea74d1c9d90beec4f08d7a459f9762 assets/createwarfare/models/item/natural_uranium.json
 af1cccc6f8fe98a8b1410a38b087e37f1778d02c assets/createwarfare/models/item/test_block.json
+c20c9b9a5a4e3dd78040172774885476eb5d8d1f assets/createwarfare/models/item/uranium_ore.json
 f65f02441dbecb1e302f49b24d019643086d28db assets/createwarfare/models/item/weapons_grade_uranium.json
 6e039f67c2ad4d1637e486c33b039117169d0919 data/createwarfare/loot_table/blocks/centrifuge.json
+68534d2dd4b20cbddcf91c703ccc376e2da960a1 data/createwarfare/loot_table/blocks/deepslate_uranium_ore.json
 97bdf3257efc197e11b20fdc0f7caeae1041b60c data/createwarfare/loot_table/blocks/test_block.json
+ed810326c05bea8d14550690f716e656ae1e84c4 data/createwarfare/loot_table/blocks/uranium_ore.json
+e62b4b320c1bbce3cf02cc20c6cfb046d7df69d8 data/minecraft/tags/block/mineable/pickaxe.json
+e62b4b320c1bbce3cf02cc20c6cfb046d7df69d8 data/minecraft/tags/block/needs_iron_tool.json

@@ -1,6 +1,8 @@
 {
   "block.createwarfare.centrifuge": "Centrifuge",
+  "block.createwarfare.deepslate_uranium_ore": "Deepslate Uranium Ore",
   "block.createwarfare.test_block": "Test Block",
+  "block.createwarfare.uranium_ore": "Uranium Ore",
   "item.createwarfare.depleted_uranium": "Depleted Uranium",
   "item.createwarfare.geiger_counter": "Geiger Counter",
   "item.createwarfare.highly_enriched_uranium": "Highly-Enriched Uranium",

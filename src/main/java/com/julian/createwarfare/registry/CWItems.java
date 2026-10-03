@@ -2,6 +2,7 @@ package com.julian.createwarfare.registry;
 
 import com.julian.createwarfare.CreateWarfare;
 import com.julian.createwarfare.items.GeigerCounterItem;
+import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.Item;
@@ -12,6 +13,7 @@ public class CWItems {
     public static final ItemEntry<GeigerCounterItem> GEIGER_COUNTER = REGISTRATE
             .item("geiger_counter", GeigerCounterItem::new)
             .properties(p -> p.stacksTo(1))
+            .model(AssetLookup.existingItemModel())
             .lang("Geiger Counter")
             .register();
 
