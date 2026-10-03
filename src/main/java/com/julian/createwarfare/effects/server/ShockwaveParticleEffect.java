@@ -1,14 +1,16 @@
 package com.julian.createwarfare.effects.server;
 
 import com.julian.createwarfare.effects.particles.shockwaves.ShockwaveParticleOptions;
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
-public final class ShockwaveEffect {
+public final class ShockwaveParticleEffect {
 
-    private ShockwaveEffect() {
+    private ShockwaveParticleEffect() {
     }
 
     public static void start(
@@ -17,13 +19,34 @@ public final class ShockwaveEffect {
             float speed,
             float radius
     ) {
-        speed = Math.max(speed, 0.01f);
-        radius = Math.max(radius, 0.01f);
+        speed =
+                Math.max(
+                        speed,
+                        0.01f
+                );
 
-        int duration = Math.max(
-                1,
-                (int) Math.ceil(radius / speed)
-        );
+        radius =
+                Math.max(
+                        radius,
+                        0.01f
+                );
+
+        Position rawPosition =
+                pos;
+
+        Vec3 worldPosition =
+                SableCompanion.INSTANCE.projectOutOfSubLevel(
+                        level,
+                        rawPosition
+                );
+
+        int duration =
+                Math.max(
+                        1,
+                        (int) Math.ceil(
+                                radius / speed
+                        )
+                );
 
         ShockwaveParticleOptions options =
                 new ShockwaveParticleOptions(
@@ -32,14 +55,16 @@ public final class ShockwaveEffect {
                         duration
                 );
 
-        for (ServerPlayer player : level.players()) {
+        for (ServerPlayer player :
+                level.players()) {
+
             level.sendParticles(
                     player,
                     options,
                     true,
-                    pos.x,
-                    pos.y,
-                    pos.z,
+                    worldPosition.x,
+                    worldPosition.y,
+                    worldPosition.z,
                     1,
                     0.0,
                     0.0,

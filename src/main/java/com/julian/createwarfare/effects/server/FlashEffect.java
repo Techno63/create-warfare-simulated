@@ -1,7 +1,9 @@
 package com.julian.createwarfare.effects.server;
 
 import com.julian.createwarfare.effects.client.ScreenFlashHandler;
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
@@ -21,8 +23,14 @@ public class FlashEffect {
         double radiusSqr =
                 radius * radius;
 
-        Vec3 flashPosition =
+        Position rawFlashPosition =
                 Vec3.atCenterOf(pos);
+
+        Vec3 flashPosition =
+                SableCompanion.INSTANCE.projectOutOfSubLevel(
+                        level,
+                        rawFlashPosition
+                );
 
         for (ServerPlayer player :
                 level.players()) {
@@ -87,22 +95,30 @@ public class FlashEffect {
                                     directionToFlash
                             );
 
-                    float directionFactor =
-                            0.15f +
-                                    0.85f *
-                                            (float)
-                                                    ((dot + 1.0) *
-                                                            0.5);
+                    float normalizedDirection =
+                            (float)
+                                    ((dot + 1.0) *
+                                            0.5);
+
+                    float intensityFactor =
+                            0.5f +
+                                    0.5f *
+                                            normalizedDirection;
+
+                    float durationFactor =
+                            0.2f +
+                                    0.8f *
+                                            normalizedDirection;
 
                     scaledStrength *=
-                            directionFactor;
+                            intensityFactor;
 
                     scaledDuration =
                             Math.max(
                                     1,
                                     Math.round(
                                             scaledDuration *
-                                                    directionFactor
+                                                    durationFactor
                                     )
                             );
                 }

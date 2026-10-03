@@ -1,10 +1,9 @@
 package com.julian.createwarfare.registry;
 
 import com.julian.createwarfare.CreateWarfare;
-import com.julian.createwarfare.effects.particles.explosions.FlameExplosionParticle;
+import com.julian.createwarfare.effects.particles.explosions.ExplosionParticle;
 import com.julian.createwarfare.effects.particles.shockwaves.ShockwaveParticle;
 import com.julian.createwarfare.effects.particles.smoke.SmokeParticle;
-import net.minecraft.client.particle.Particle;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,8 +21,8 @@ public class CWParticleProviders {
         );
 
         event.registerSpriteSet(
-                CWParticles.FLAME_EXPLOSION.get(),
-                FlameExplosionParticle.Provider::new
+                CWParticles.EXPLOSION.get(),
+                ExplosionParticle.Provider::new
         );
 
         event.registerSpriteSet(

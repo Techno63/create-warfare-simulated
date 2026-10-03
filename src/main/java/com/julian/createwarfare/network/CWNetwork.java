@@ -12,12 +12,19 @@ public final class CWNetwork {
         modEventBus.addListener(CWNetwork::registerPayloads);
     }
 
-    public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-
-        event.registrar("1").playToClient(
-                WavePayload.TYPE,
-                WavePayload.STREAM_CODEC,
-                WavePayload::handle
-        );
+    private static void registerPayloads(
+            RegisterPayloadHandlersEvent event
+    ) {
+        event.registrar("1")
+                .playToClient(
+                        WavePayload.TYPE,
+                        WavePayload.STREAM_CODEC,
+                        WavePayload::handle
+                )
+                .playToClient(
+                        MushroomCapPayload.TYPE,
+                        MushroomCapPayload.STREAM_CODEC,
+                        MushroomCapPayload::handle
+                );
     }
 }

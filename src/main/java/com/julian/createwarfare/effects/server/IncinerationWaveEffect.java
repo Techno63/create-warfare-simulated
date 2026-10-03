@@ -1,6 +1,7 @@
 package com.julian.createwarfare.effects.server;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,6 +9,7 @@ import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import dev.ryanhcode.sable.companion.SableCompanion;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,10 +32,19 @@ public class IncinerationWaveEffect {
             int fireSeconds,
             boolean falloff
     ) {
+        Position rawCenter =
+                pos.getCenter();
+
+        Vec3 center =
+                SableCompanion.INSTANCE.projectOutOfSubLevel(
+                        level,
+                        rawCenter
+                );
+
         WAVES.add(
                 new IncinerationWave(
                         level,
-                        pos.getCenter(),
+                        center,
                         Math.max(speed, 0.01f),
                         Math.max(radius, 0.01f),
                         Math.max(damage, 0.0f),

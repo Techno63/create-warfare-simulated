@@ -1,8 +1,10 @@
 package com.julian.createwarfare.blocks;
 
+import com.julian.createwarfare.effects.particles.explosions.ExplosionParticleType;
 import com.julian.createwarfare.effects.server.*;
 import com.julian.createwarfare.explosions.post.SmokeRingPost;
 import com.julian.createwarfare.explosions.types.GenericExplosion;
+import com.julian.createwarfare.registry.CWServerTicker;
 import com.julian.createwarfare.registry.CWSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -30,19 +32,29 @@ public class TestBlock extends Block {
 
         SoundWaveEffect.start(serverLevel, pos, 17.15f, 3000f, CWSoundEvents.EXPLOSION.getMainEvent(), true);
 
-        WaveEffect.start(serverLevel, pos, 1.5f, 500f, 0xffe3b8, 0.8f);
-        PressureWaveEffect.start(serverLevel, pos, 1.5f, 500f, 6f, true);
-        SmokeRingPost.start(serverLevel, pos.above(20), 0.3f, 60f, 800);
-        SmokeRingPost.start(serverLevel, pos.above(32), 0.3f, 45f, 800);
-        SmokeRingPost.start(serverLevel, pos.above(50), 0.3f, 32f, 800);
+        WaveEffect.start(serverLevel, pos, 2.5f, 35f, 0xfff0a8, 0.95f, 80, true);
+        WaveEffect.start(serverLevel, pos, 2f, 30f, 0xFFA033, 0.95f, 80, true);
+        WaveEffect.start(serverLevel, pos, 1.5f, 25f, 0xfff0a8, 0.95f, 80, true);
+        WaveEffect.start(serverLevel, pos, 1f, 20f, 0xFFA033, 0.95f, 80, true);
 
-        FlashEffect.start(serverLevel, pos, 200f, 1f, 100, 0xF5FAFF, false, true);
+        GlowEffect.start(serverLevel, pos, 200f, 0xfff0a8, 1.5f, 120, false);
+
+        MushroomCapEffect.start(serverLevel, pos.below(2), 200f, 7f,
+                120f, 30f,
+                 15f, 140f,
+                   300);
+
+        PressureWaveEffect.start(serverLevel, pos, 2f, 300f, 6f, true);
+        WaveEffect.start(serverLevel, pos, 2f, 300f, 0xFFFFFF, 0.3f, 0, false);
+        SmokeRingPost.start(serverLevel, pos.above(48), 0.3f, 45f, 600);
+        SmokeRingPost.start(serverLevel, pos.above(65), 0.3f, 55f, 700);
+
+        FlashEffect.start(serverLevel, pos, 200f, 1f, 100, 0xFFF4C2, false, true);
         VignetteEffect.start(serverLevel, pos, 300f, 300, 1f);
-        ShakeEffect.start(serverLevel, pos, 300f, 24f, 150, true);
+        ShakeEffect.start(serverLevel, pos, 300f, 24f, 80, true);
         TinnitusEffect.start(serverLevel, pos, 350f, 400, false);
         HeartbeatEffect.start(serverLevel, pos, 300f, 450, 0.5f, false);
         BlurEffect.start(serverLevel, pos, 250f, 16f, 150, true);
-        
 
     }
 

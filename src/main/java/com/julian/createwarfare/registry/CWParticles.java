@@ -1,6 +1,6 @@
 package com.julian.createwarfare.registry;
 
-import com.julian.createwarfare.effects.particles.explosions.FlameExplosionParticleType;
+import com.julian.createwarfare.effects.particles.explosions.ExplosionParticleType;
 import com.julian.createwarfare.effects.particles.shockwaves.ShockwaveParticleType;
 import com.julian.createwarfare.effects.particles.smoke.SmokeParticleType;
 import com.tterrag.registrate.util.entry.RegistryEntry;
@@ -19,11 +19,11 @@ public class CWParticles {
                     () -> new ShockwaveParticleType(false)
             );
 
-    public static final RegistryEntry<ParticleType<?>, FlameExplosionParticleType> FLAME_EXPLOSION =
+    public static final RegistryEntry<ParticleType<?>, ExplosionParticleType> EXPLOSION =
             REGISTRATE.simple(
-                    "flame_explosion",
+                    "explosion",
                     Registries.PARTICLE_TYPE,
-                    () -> new FlameExplosionParticleType(true)
+                    () -> new ExplosionParticleType(true)
             );
 
     public static final RegistryEntry<ParticleType<?>, SmokeParticleType> SMOKE =

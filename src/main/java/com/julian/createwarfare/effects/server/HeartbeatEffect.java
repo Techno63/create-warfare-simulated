@@ -1,9 +1,12 @@
 package com.julian.createwarfare.effects.server;
 
 import com.julian.createwarfare.effects.sounds.HeartbeatHandler;
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.Vec3;
 
 public class HeartbeatEffect {
 
@@ -15,37 +18,82 @@ public class HeartbeatEffect {
             float intensity,
             boolean falloff
     ) {
-        double radiusSqr = radius * radius;
+        Position rawHeartbeatPosition =
+                Vec3.atCenterOf(pos);
 
-        intensity = Math.max(0.0F, Math.min(1.0F, intensity));
+        Vec3 heartbeatPosition =
+                SableCompanion.INSTANCE.projectOutOfSubLevel(
+                        level,
+                        rawHeartbeatPosition
+                );
 
-        int minInterval = 5;
-        int maxInterval = 40;
+        double radiusSqr =
+                radius * radius;
 
-        int intervalTicks = Math.round(
-                maxInterval - (maxInterval - minInterval) * intensity
-        );
+        intensity =
+                Math.clamp(
+                        intensity
+                        ,
+                        0.0f,
+                        1.0f);
 
-        for (ServerPlayer player : level.players()) {
-            double distanceSqr = player.distanceToSqr(
-                    pos.getX() + 0.5,
-                    pos.getY() + 0.5,
-                    pos.getZ() + 0.5
-            );
+        int minInterval =
+                5;
+
+        int maxInterval =
+                40;
+
+        int intervalTicks =
+                Math.round(
+                        maxInterval -
+                                (maxInterval - minInterval) *
+                                        intensity
+                );
+
+        for (ServerPlayer player :
+                level.players()) {
+
+            double distanceSqr =
+                    player.distanceToSqr(
+                            heartbeatPosition.x,
+                            heartbeatPosition.y,
+                            heartbeatPosition.z
+                    );
 
             if (distanceSqr > radiusSqr) {
                 continue;
             }
 
-            int scaledDuration = duration;
+            int scaledDuration =
+                    duration;
 
             if (falloff) {
-                double distance = Math.sqrt(distanceSqr);
-                double falloffAmount = 1.0 - (distance / radius) * 0.75;
-                scaledDuration = Math.max(1, (int) (duration * falloffAmount));
+                double distance =
+                        Math.sqrt(
+                                distanceSqr
+                        );
+
+                double falloffAmount =
+                        1.0 -
+                                (distance / radius) *
+                                        0.75;
+
+                scaledDuration =
+                        Math.max(
+                                1,
+                                (int) (
+                                        duration *
+                                                falloffAmount
+                                )
+                        );
             }
 
-            int cycleCount = Math.max(1, scaledDuration / intervalTicks);
+            int cycleCount =
+                    Math.max(
+                            1,
+                            scaledDuration /
+                                    intervalTicks
+                    );
 
             HeartbeatHandler.start(
                     intervalTicks,

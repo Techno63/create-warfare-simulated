@@ -1,6 +1,6 @@
 package com.julian.createwarfare.effects.server;
 
-import com.julian.createwarfare.effects.client.ScreenShakeHandler;
+import com.julian.createwarfare.effects.client.ScreenGlowHandler;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
@@ -8,26 +8,27 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
-public class ShakeEffect {
+public class GlowEffect {
 
     public static void start(
             ServerLevel level,
             BlockPos pos,
             float radius,
-            float strength,
+            int color,
+            float intensity,
             int duration,
             boolean falloff
     ) {
         double radiusSqr =
                 radius * radius;
 
-        Position rawCenter =
-                pos.getCenter();
+        Position rawGlowPosition =
+                Vec3.atCenterOf(pos);
 
-        Vec3 center =
+        Vec3 glowPosition =
                 SableCompanion.INSTANCE.projectOutOfSubLevel(
                         level,
-                        rawCenter
+                        rawGlowPosition
                 );
 
         for (ServerPlayer player :
@@ -35,34 +36,32 @@ public class ShakeEffect {
 
             double distanceSqr =
                     player.distanceToSqr(
-                            center.x,
-                            center.y,
-                            center.z
+                            glowPosition.x,
+                            glowPosition.y,
+                            glowPosition.z
                     );
 
             if (distanceSqr > radiusSqr) {
                 continue;
             }
 
-            float scaledStrength =
-                    strength;
+            float scaledIntensity =
+                    intensity;
 
             int scaledDuration =
                     duration;
 
             if (falloff) {
                 double distance =
-                        Math.sqrt(
-                                distanceSqr
-                        );
+                        Math.sqrt(distanceSqr);
 
                 double falloffAmount =
                         1.0 -
                                 (distance / radius) *
                                         0.75;
 
-                scaledStrength =
-                        strength *
+                scaledIntensity =
+                        intensity *
                                 (float) falloffAmount;
 
                 scaledDuration =
@@ -75,8 +74,11 @@ public class ShakeEffect {
                         );
             }
 
-            ScreenShakeHandler.shake(
-                    scaledStrength,
+            ScreenGlowHandler.glow(
+                    glowPosition,
+                    radius,
+                    color,
+                    scaledIntensity,
                     scaledDuration
             );
         }

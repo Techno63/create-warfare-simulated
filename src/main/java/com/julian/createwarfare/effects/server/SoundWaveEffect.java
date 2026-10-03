@@ -1,7 +1,8 @@
 package com.julian.createwarfare.effects.server;
 
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -29,9 +30,18 @@ public class SoundWaveEffect {
             SoundEvent sound,
             boolean falloff
     ) {
+        Position rawCenter =
+                pos.getCenter();
+
+        Vec3 center =
+                SableCompanion.INSTANCE.projectOutOfSubLevel(
+                        level,
+                        rawCenter
+                );
+
         WAVES.add(new SoundWave(
                 level,
-                pos.getCenter(),
+                center,
                 Math.max(speed, 0.01f),
                 Math.max(radius, 0.01f),
                 sound,
@@ -119,7 +129,9 @@ public class SoundWaveEffect {
                 }
 
                 double distanceSqr =
-                        player.distanceToSqr(center);
+                        player.distanceToSqr(
+                                center
+                        );
 
                 if (distanceSqr > travelledSqr) {
                     continue;
@@ -131,7 +143,9 @@ public class SoundWaveEffect {
 
                 applyPlayerEffect(
                         player,
-                        Math.sqrt(distanceSqr)
+                        Math.sqrt(
+                                distanceSqr
+                        )
                 );
             }
 
@@ -162,7 +176,10 @@ public class SoundWaveEffect {
 
             return Mth.clamp(
                     1.0f -
-                            (float) (distance / radius) *
+                            (float) (
+                                    distance /
+                                            radius
+                            ) *
                                     0.5f,
                     0.3f,
                     1.0f

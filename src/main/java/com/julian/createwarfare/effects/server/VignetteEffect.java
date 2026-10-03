@@ -1,9 +1,12 @@
 package com.julian.createwarfare.effects.server;
 
 import com.julian.createwarfare.effects.client.ScreenVignetteHandler;
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.Vec3;
 
 public class VignetteEffect {
 
@@ -14,20 +17,36 @@ public class VignetteEffect {
             int duration,
             float strength
     ) {
-        double radiusSquared = radius * radius;
+        double radiusSquared =
+                radius * radius;
 
-        for (ServerPlayer player : level.players()) {
-            double distanceSquared = player.distanceToSqr(
-                    pos.getX() + 0.5,
-                    pos.getY() + 0.5,
-                    pos.getZ() + 0.5
-            );
+        Position rawCenter =
+                pos.getCenter();
+
+        Vec3 center =
+                SableCompanion.INSTANCE.projectOutOfSubLevel(
+                        level,
+                        rawCenter
+                );
+
+        for (ServerPlayer player :
+                level.players()) {
+
+            double distanceSquared =
+                    player.distanceToSqr(
+                            center.x,
+                            center.y,
+                            center.z
+                    );
 
             if (distanceSquared > radiusSquared) {
                 continue;
             }
 
-            ScreenVignetteHandler.vignette(strength, duration);
+            ScreenVignetteHandler.vignette(
+                    strength,
+                    duration
+            );
         }
     }
 }

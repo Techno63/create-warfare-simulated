@@ -7,6 +7,7 @@ import dev.ryanhcode.sable.companion.math.BoundingBox3d;
 import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,9 +34,18 @@ public class PressureWaveEffect {
             float strength,
             boolean falloff
     ) {
+        Position rawCenter =
+                pos.getCenter();
+
+        Vec3 center =
+                SableCompanion.INSTANCE.projectOutOfSubLevel(
+                        level,
+                        rawCenter
+                );
+
         WAVES.add(new PressureWave(
                 level,
-                pos.getCenter(),
+                center,
                 Math.max(speed, 0.01f),
                 Math.max(radius, 0.01f),
                 strength,
@@ -64,7 +74,14 @@ public class PressureWaveEffect {
         private final Set<Integer> affectedEntities = new HashSet<>();
         private final Set<Object> affectedSubLevels = new HashSet<>();
 
-        private PressureWave(ServerLevel level, Vec3 center, float speed, float radius, float strength, boolean falloff) {
+        private PressureWave(
+                ServerLevel level,
+                Vec3 center,
+                float speed,
+                float radius,
+                float strength,
+                boolean falloff
+        ) {
             this.level = level;
             this.center = center;
             this.speed = speed;
@@ -74,131 +91,303 @@ public class PressureWaveEffect {
         }
 
         private boolean tick() {
-            float elapsedTicks = (System.nanoTime() - startNanos) / NANOS_PER_TICK;
-            float travelled = Math.min(elapsedTicks * speed, radius);
-            double travelledSqr = (double) travelled * travelled;
+            float elapsedTicks =
+                    (System.nanoTime() - startNanos) /
+                            NANOS_PER_TICK;
+
+            float travelled =
+                    Math.min(
+                            elapsedTicks * speed,
+                            radius
+                    );
+
+            double travelledSqr =
+                    (double) travelled *
+                            travelled;
 
             AABB area = new AABB(
-                    center.x - travelled, center.y - travelled, center.z - travelled,
-                    center.x + travelled, center.y + travelled, center.z + travelled
+                    center.x - travelled,
+                    center.y - travelled,
+                    center.z - travelled,
+                    center.x + travelled,
+                    center.y + travelled,
+                    center.z + travelled
             );
 
-            for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, area)) {
-                if (!entity.isAlive() || entity.isSpectator()) {
+            for (LivingEntity entity :
+                    level.getEntitiesOfClass(
+                            LivingEntity.class,
+                            area
+                    )) {
+
+                if (!entity.isAlive() ||
+                        entity.isSpectator()) {
                     continue;
                 }
 
-                if (affectedEntities.contains(entity.getId())) {
+                if (affectedEntities.contains(
+                        entity.getId()
+                )) {
                     continue;
                 }
 
-                double distanceSqr = entity.distanceToSqr(center);
+                double distanceSqr =
+                        entity.distanceToSqr(
+                                center
+                        );
 
-                if (distanceSqr > travelledSqr) {
+                if (distanceSqr >
+                        travelledSqr) {
                     continue;
                 }
 
-                affectedEntities.add(entity.getId());
-                applyEntityEffect(entity, Math.sqrt(distanceSqr));
+                affectedEntities.add(
+                        entity.getId()
+                );
+
+                applyEntityEffect(
+                        entity,
+                        Math.sqrt(
+                                distanceSqr
+                        )
+                );
             }
 
             applySableEffect(
-                    new BoundingBox3d(area.minX, area.minY, area.minZ, area.maxX, area.maxY, area.maxZ),
+                    new BoundingBox3d(
+                            area.minX,
+                            area.minY,
+                            area.minZ,
+                            area.maxX,
+                            area.maxY,
+                            area.maxZ
+                    ),
                     travelledSqr
             );
 
             return travelled < radius;
         }
 
-        private Vec3 directionFrom(Vec3 point) {
-            Vec3 direction = point.subtract(center);
+        private Vec3 directionFrom(
+                Vec3 point
+        ) {
+            Vec3 direction =
+                    point.subtract(
+                            center
+                    );
 
-            if (direction.lengthSqr() < 0.0001) {
-                return new Vec3(1.0, 0.0, 0.0);
+            if (direction.lengthSqr() <
+                    0.0001) {
+                return new Vec3(
+                        1.0,
+                        0.0,
+                        0.0
+                );
             }
 
             return direction.normalize();
         }
 
-        private void applyEntityEffect(LivingEntity entity, double distance) {
-            float effectiveStrength = strength * getStrengthMultiplier(distance);
-            Vec3 direction = directionFrom(entity.position());
+        private void applyEntityEffect(
+                LivingEntity entity,
+                double distance
+        ) {
+            float effectiveStrength =
+                    strength *
+                            getStrengthMultiplier(
+                                    distance
+                            );
 
-            double knockback = effectiveStrength * 0.12;
-            double upward = effectiveStrength * 0.08;
+            Vec3 direction =
+                    directionFrom(
+                            entity.position()
+                    );
 
-            Vec3 velocity = entity.getDeltaMovement();
+            double knockback =
+                    effectiveStrength *
+                            0.12;
+
+            double upward =
+                    effectiveStrength *
+                            0.08;
+
+            Vec3 velocity =
+                    entity.getDeltaMovement();
 
             entity.setDeltaMovement(
-                    velocity.x + direction.x * knockback,
-                    velocity.y + direction.y * knockback + upward,
-                    velocity.z + direction.z * knockback
+                    velocity.x +
+                            direction.x *
+                                    knockback,
+                    velocity.y +
+                            direction.y *
+                                    knockback +
+                            upward,
+                    velocity.z +
+                            direction.z *
+                                    knockback
             );
 
             entity.hurtMarked = true;
         }
 
-        private void applySableEffect(BoundingBox3d area, double travelledSqr) {
-            for (SubLevelAccess subLevel : SableCompanion.INSTANCE.getAllIntersecting(level, area)) {
+        private void applySableEffect(
+                BoundingBox3d area,
+                double travelledSqr
+        ) {
+            for (SubLevelAccess subLevel :
+                    SableCompanion.INSTANCE.getAllIntersecting(
+                            level,
+                            area
+                    )) {
 
                 if (!(subLevel instanceof ServerSubLevel serverSubLevel)) {
                     continue;
                 }
 
-                Object id = subLevel.getUniqueId();
+                Object id =
+                        subLevel.getUniqueId();
 
-                if (affectedSubLevels.contains(id)) {
+                if (affectedSubLevels.contains(
+                        id
+                )) {
                     continue;
                 }
 
-                BoundingBox3dc box = subLevel.boundingBox();
+                BoundingBox3dc box =
+                        subLevel.boundingBox();
 
-                Vec3 closest = new Vec3(
-                        Math.max(box.minX(), Math.min(center.x, box.maxX())),
-                        Math.max(box.minY(), Math.min(center.y, box.maxY())),
-                        Math.max(box.minZ(), Math.min(center.z, box.maxZ()))
+                Vec3 closest =
+                        new Vec3(
+                                Math.max(
+                                        box.minX(),
+                                        Math.min(
+                                                center.x,
+                                                box.maxX()
+                                        )
+                                ),
+                                Math.max(
+                                        box.minY(),
+                                        Math.min(
+                                                center.y,
+                                                box.maxY()
+                                        )
+                                ),
+                                Math.max(
+                                        box.minZ(),
+                                        Math.min(
+                                                center.z,
+                                                box.maxZ()
+                                        )
+                                )
+                        );
+
+                double distanceSqr =
+                        closest.distanceToSqr(
+                                center
+                        );
+
+                if (distanceSqr >
+                        travelledSqr) {
+                    continue;
+                }
+
+                RigidBodyHandle handle =
+                        RigidBodyHandle.of(
+                                serverSubLevel
+                        );
+
+                if (handle == null ||
+                        !handle.isValid()) {
+                    continue;
+                }
+
+                affectedSubLevels.add(
+                        id
                 );
 
-                double distanceSqr = closest.distanceToSqr(center);
-
-                if (distanceSqr > travelledSqr) {
-                    continue;
-                }
-
-                RigidBodyHandle handle = RigidBodyHandle.of(serverSubLevel);
-
-                if (handle == null || !handle.isValid()) {
-                    continue;
-                }
-
-                affectedSubLevels.add(id);
-                applySableImpulse(serverSubLevel, handle, closest, Math.sqrt(distanceSqr));
+                applySableImpulse(
+                        serverSubLevel,
+                        handle,
+                        closest,
+                        Math.sqrt(
+                                distanceSqr
+                        )
+                );
             }
         }
 
-        private void applySableImpulse(ServerSubLevel subLevel, RigidBodyHandle handle, Vec3 point, double distance) {
-            double effectiveStrength = strength * getStrengthMultiplier(distance);
-            Vec3 direction = directionFrom(point);
+        private void applySableImpulse(
+                ServerSubLevel subLevel,
+                RigidBodyHandle handle,
+                Vec3 point,
+                double distance
+        ) {
+            double effectiveStrength =
+                    strength *
+                            getStrengthMultiplier(
+                                    distance
+                            );
 
-            Vector3d localPosition = subLevel.logicalPose()
-                    .transformPositionInverse(new Vector3d(center.x, center.y, center.z));
+            Vec3 direction =
+                    directionFrom(
+                            point
+                    );
 
-            Vector3d localForce = subLevel.logicalPose()
-                    .transformNormalInverse(new Vector3d(direction.x, direction.y, direction.z));
+            Vector3d localPosition =
+                    subLevel.logicalPose()
+                            .transformPositionInverse(
+                                    new Vector3d(
+                                            center.x,
+                                            center.y,
+                                            center.z
+                                    )
+                            );
 
-            double sablePushMultiplier = 2.0;
-            localForce.mul(effectiveStrength * sablePushMultiplier);
-            localForce.y += effectiveStrength * 0.005;
+            Vector3d localForce =
+                    subLevel.logicalPose()
+                            .transformNormalInverse(
+                                    new Vector3d(
+                                            direction.x,
+                                            direction.y,
+                                            direction.z
+                                    )
+                            );
 
-            handle.applyImpulseAtPoint(localPosition, localForce);
+            double sablePushMultiplier =
+                    2.0;
+
+            localForce.mul(
+                    effectiveStrength *
+                            sablePushMultiplier
+            );
+
+            localForce.y +=
+                    effectiveStrength *
+                            0.005;
+
+            handle.applyImpulseAtPoint(
+                    localPosition,
+                    localForce
+            );
         }
 
-        private float getStrengthMultiplier(double distance) {
+        private float getStrengthMultiplier(
+                double distance
+        ) {
             if (!falloff) {
                 return 1.0f;
             }
 
-            return Mth.clamp(1.0f - (float) (distance / radius) * 0.5f, 0.5f, 1.0f);
+            return Mth.clamp(
+                    1.0f -
+                            (float) (
+                                    distance /
+                                            radius
+                            ) *
+                                    0.5f,
+                    0.5f,
+                    1.0f
+            );
         }
     }
 }

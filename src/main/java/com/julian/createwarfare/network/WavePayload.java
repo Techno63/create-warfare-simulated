@@ -16,27 +16,23 @@ public record WavePayload(
         float speed,
         float maxRadius,
         int color,
-        float transparency
+        float alpha,
+        int stayTicks,
+        boolean glow
 ) implements CustomPacketPayload {
 
     public static final Type<WavePayload> TYPE =
             new Type<>(
                     ResourceLocation.fromNamespaceAndPath(
                             CreateWarfare.MODID,
-                            "fireball"
+                            "wave"
                     )
             );
 
-    public static final StreamCodec<
-            RegistryFriendlyByteBuf,
-            WavePayload
-            > STREAM_CODEC =
+    public static final StreamCodec<RegistryFriendlyByteBuf, WavePayload> STREAM_CODEC =
             new StreamCodec<>() {
-
                 @Override
-                public WavePayload decode(
-                        RegistryFriendlyByteBuf buffer
-                ) {
+                public WavePayload decode(RegistryFriendlyByteBuf buffer) {
                     return new WavePayload(
                             buffer.readDouble(),
                             buffer.readDouble(),
@@ -44,22 +40,23 @@ public record WavePayload(
                             buffer.readFloat(),
                             buffer.readFloat(),
                             buffer.readInt(),
-                            buffer.readFloat()
+                            buffer.readFloat(),
+                            buffer.readVarInt(),
+                            buffer.readBoolean()
                     );
                 }
 
                 @Override
-                public void encode(
-                        RegistryFriendlyByteBuf buffer,
-                        WavePayload payload
-                ) {
+                public void encode(RegistryFriendlyByteBuf buffer, WavePayload payload) {
                     buffer.writeDouble(payload.x());
                     buffer.writeDouble(payload.y());
                     buffer.writeDouble(payload.z());
                     buffer.writeFloat(payload.speed());
                     buffer.writeFloat(payload.maxRadius());
                     buffer.writeInt(payload.color());
-                    buffer.writeFloat(payload.transparency());
+                    buffer.writeFloat(payload.alpha());
+                    buffer.writeVarInt(payload.stayTicks());
+                    buffer.writeBoolean(payload.glow());
                 }
             };
 
@@ -72,18 +69,18 @@ public record WavePayload(
             WavePayload payload,
             IPayloadContext context
     ) {
-        context.enqueueWork(() -> {
-            WaveEngine.spawn(
-                    new Vec3(
-                            payload.x(),
-                            payload.y(),
-                            payload.z()
-                    ),
-                    payload.speed(),
-                    payload.maxRadius(),
-                    payload.color(),
-                    payload.transparency()
-            );
-        });
+        context.enqueueWork(() -> WaveEngine.spawn(
+                new Vec3(
+                        payload.x(),
+                        payload.y(),
+                        payload.z()
+                ),
+                payload.speed(),
+                payload.maxRadius(),
+                payload.color(),
+                payload.alpha(),
+                payload.stayTicks(),
+                payload.glow()
+        ));
     }
 }
