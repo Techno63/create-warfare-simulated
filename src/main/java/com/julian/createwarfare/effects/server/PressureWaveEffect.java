@@ -22,9 +22,11 @@ import java.util.Set;
 
 public class PressureWaveEffect {
 
-    private static final float NANOS_PER_TICK = 50_000_000.0f;
+    private static final float NANOS_PER_TICK =
+            50_000_000.0f;
 
-    private static final List<PressureWave> WAVES = new ArrayList<>();
+    private static final List<PressureWave> WAVES =
+            new ArrayList<>();
 
     public static void start(
             ServerLevel level,
@@ -43,14 +45,16 @@ public class PressureWaveEffect {
                         rawCenter
                 );
 
-        WAVES.add(new PressureWave(
-                level,
-                center,
-                Math.max(speed, 0.01f),
-                Math.max(radius, 0.01f),
-                strength,
-                falloff
-        ));
+        WAVES.add(
+                new PressureWave(
+                        level,
+                        center,
+                        Math.max(speed, 0.01f),
+                        Math.max(radius, 0.01f),
+                        strength,
+                        falloff
+                )
+        );
     }
 
     public static void tick() {
@@ -69,10 +73,14 @@ public class PressureWaveEffect {
         private final float radius;
         private final float strength;
         private final boolean falloff;
-        private final long startNanos = System.nanoTime();
+        private final long startNanos =
+                System.nanoTime();
 
-        private final Set<Integer> affectedEntities = new HashSet<>();
-        private final Set<Object> affectedSubLevels = new HashSet<>();
+        private final Set<Integer> affectedEntities =
+                new HashSet<>();
+
+        private final Set<Object> affectedSubLevels =
+                new HashSet<>();
 
         private PressureWave(
                 ServerLevel level,
@@ -105,14 +113,15 @@ public class PressureWaveEffect {
                     (double) travelled *
                             travelled;
 
-            AABB area = new AABB(
-                    center.x - travelled,
-                    center.y - travelled,
-                    center.z - travelled,
-                    center.x + travelled,
-                    center.y + travelled,
-                    center.z + travelled
-            );
+            AABB area =
+                    new AABB(
+                            center.x - travelled,
+                            center.y - travelled,
+                            center.z - travelled,
+                            center.x + travelled,
+                            center.y + travelled,
+                            center.z + travelled
+                    );
 
             for (LivingEntity entity :
                     level.getEntitiesOfClass(
@@ -147,9 +156,7 @@ public class PressureWaveEffect {
 
                 applyEntityEffect(
                         entity,
-                        Math.sqrt(
-                                distanceSqr
-                        )
+                        Math.sqrt(distanceSqr)
                 );
             }
 
@@ -227,7 +234,8 @@ public class PressureWaveEffect {
                                     knockback
             );
 
-            entity.hurtMarked = true;
+            entity.hurtMarked =
+                    true;
         }
 
         private void applySableEffect(
@@ -337,9 +345,9 @@ public class PressureWaveEffect {
                     subLevel.logicalPose()
                             .transformPositionInverse(
                                     new Vector3d(
-                                            center.x,
-                                            center.y,
-                                            center.z
+                                            point.x,
+                                            point.y,
+                                            point.z
                                     )
                             );
 

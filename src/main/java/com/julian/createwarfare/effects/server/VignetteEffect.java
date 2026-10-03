@@ -1,12 +1,13 @@
 package com.julian.createwarfare.effects.server;
 
-import com.julian.createwarfare.effects.client.ScreenVignetteHandler;
+import com.julian.createwarfare.network.ClientEffectPayload;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class VignetteEffect {
 
@@ -43,9 +44,18 @@ public class VignetteEffect {
                 continue;
             }
 
-            ScreenVignetteHandler.vignette(
-                    strength,
-                    duration
+            PacketDistributor.sendToPlayer(
+                    player,
+                    new ClientEffectPayload(
+                            ClientEffectPayload.VIGNETTE,
+                            0.0,
+                            0.0,
+                            0.0,
+                            strength,
+                            0.0f,
+                            0,
+                            duration
+                    )
             );
         }
     }

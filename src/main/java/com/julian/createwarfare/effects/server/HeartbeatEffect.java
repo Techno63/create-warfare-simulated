@@ -1,12 +1,13 @@
 package com.julian.createwarfare.effects.server;
 
-import com.julian.createwarfare.effects.sounds.HeartbeatHandler;
+import com.julian.createwarfare.network.ClientEffectPayload;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class HeartbeatEffect {
 
@@ -19,7 +20,7 @@ public class HeartbeatEffect {
             boolean falloff
     ) {
         Position rawHeartbeatPosition =
-                Vec3.atCenterOf(pos);
+                pos.getCenter();
 
         Vec3 heartbeatPosition =
                 SableCompanion.INSTANCE.projectOutOfSubLevel(
@@ -31,11 +32,13 @@ public class HeartbeatEffect {
                 radius * radius;
 
         intensity =
-                Math.clamp(
-                        intensity
-                        ,
+                Math.max(
                         0.0f,
-                        1.0f);
+                        Math.min(
+                                1.0f,
+                                intensity
+                        )
+                );
 
         int minInterval =
                 5;
@@ -95,9 +98,18 @@ public class HeartbeatEffect {
                                     intervalTicks
                     );
 
-            HeartbeatHandler.start(
-                    intervalTicks,
-                    cycleCount
+            PacketDistributor.sendToPlayer(
+                    player,
+                    new ClientEffectPayload(
+                            ClientEffectPayload.HEARTBEAT,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0f,
+                            0.0f,
+                            intervalTicks,
+                            cycleCount
+                    )
             );
         }
     }

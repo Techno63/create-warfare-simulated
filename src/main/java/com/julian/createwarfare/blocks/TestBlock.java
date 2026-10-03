@@ -48,6 +48,7 @@ public class TestBlock extends Block {
         WaveEffect.start(serverLevel, pos, 2f, 300f, 0xFFFFFF, 0.3f, 0, false);
         SmokeRingPost.start(serverLevel, pos.above(48), 0.3f, 45f, 600);
         SmokeRingPost.start(serverLevel, pos.above(65), 0.3f, 55f, 700);
+        ExplosionParticleEffect.spawn(serverLevel, pos, 20, 100);
 
         FlashEffect.start(serverLevel, pos, 200f, 1f, 100, 0xFFF4C2, false, true);
         VignetteEffect.start(serverLevel, pos, 300f, 300, 1f);

@@ -1,12 +1,13 @@
 package com.julian.createwarfare.effects.server;
 
-import com.julian.createwarfare.effects.client.ScreenGlowHandler;
+import com.julian.createwarfare.network.ClientEffectPayload;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class GlowEffect {
 
@@ -74,12 +75,18 @@ public class GlowEffect {
                         );
             }
 
-            ScreenGlowHandler.glow(
-                    glowPosition,
-                    radius,
-                    color,
-                    scaledIntensity,
-                    scaledDuration
+            PacketDistributor.sendToPlayer(
+                    player,
+                    new ClientEffectPayload(
+                            ClientEffectPayload.GLOW,
+                            glowPosition.x,
+                            glowPosition.y,
+                            glowPosition.z,
+                            radius,
+                            scaledIntensity,
+                            color,
+                            scaledDuration
+                    )
             );
         }
     }

@@ -1,12 +1,13 @@
 package com.julian.createwarfare.effects.server;
 
-import com.julian.createwarfare.effects.client.ScreenBlurHandler;
+import com.julian.createwarfare.network.ClientEffectPayload;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class BlurEffect {
 
@@ -18,12 +19,11 @@ public class BlurEffect {
             int duration,
             boolean falloff
     ) {
+        double radiusSqr =
+                radius * radius;
+
         Position rawCenter =
-                new Vec3(
-                        pos.getX() + 0.5,
-                        pos.getY() + 0.5,
-                        pos.getZ() + 0.5
-                );
+                Vec3.atCenterOf(pos);
 
         Vec3 center =
                 SableCompanion.INSTANCE.projectOutOfSubLevel(
@@ -31,10 +31,9 @@ public class BlurEffect {
                         rawCenter
                 );
 
-        double radiusSqr =
-                radius * radius;
+        for (ServerPlayer player :
+                level.players()) {
 
-        for (ServerPlayer player : level.players()) {
             double distanceSqr =
                     player.distanceToSqr(
                             center.x,
@@ -57,26 +56,36 @@ public class BlurEffect {
                         Math.sqrt(distanceSqr);
 
                 double falloffAmount =
-                        1.0
-                                - (distance / radius) * 0.75;
+                        1.0 -
+                                (distance / radius) *
+                                        0.75;
 
                 scaledStrength =
-                        strength
-                                * (float) falloffAmount;
+                        strength *
+                                (float) falloffAmount;
 
                 scaledDuration =
                         Math.max(
                                 1,
                                 (int) (
-                                        duration
-                                                * falloffAmount
+                                        duration *
+                                                falloffAmount
                                 )
                         );
             }
 
-            ScreenBlurHandler.blur(
-                    scaledStrength,
-                    scaledDuration
+            PacketDistributor.sendToPlayer(
+                    player,
+                    new ClientEffectPayload(
+                            ClientEffectPayload.BLUR,
+                            0.0,
+                            0.0,
+                            0.0,
+                            scaledStrength,
+                            0.0f,
+                            0,
+                            scaledDuration
+                    )
             );
         }
     }

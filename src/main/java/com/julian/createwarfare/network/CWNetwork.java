@@ -25,6 +25,15 @@ public final class CWNetwork {
                         MushroomCapPayload.TYPE,
                         MushroomCapPayload.STREAM_CODEC,
                         MushroomCapPayload::handle
+                ).playToClient(
+                        ClientEffectPayload.TYPE,
+                        ClientEffectPayload.STREAM_CODEC,
+                        (payload, context) ->
+                                context.enqueueWork(() ->
+                                        ClientEffectPayloadHandler.handle(
+                                                payload
+                                        )
+                                )
                 );
     }
 }

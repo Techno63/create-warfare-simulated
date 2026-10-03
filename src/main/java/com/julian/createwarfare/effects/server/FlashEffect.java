@@ -1,12 +1,13 @@
 package com.julian.createwarfare.effects.server;
 
-import com.julian.createwarfare.effects.client.ScreenFlashHandler;
+import com.julian.createwarfare.network.ClientEffectPayload;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class FlashEffect {
 
@@ -68,9 +69,10 @@ public class FlashEffect {
                 scaledDuration =
                         Math.max(
                                 1,
-                                (int)
-                                        (duration *
-                                                falloffAmount)
+                                (int) (
+                                        duration *
+                                                falloffAmount
+                                )
                         );
             }
 
@@ -124,10 +126,18 @@ public class FlashEffect {
                 }
             }
 
-            ScreenFlashHandler.flash(
-                    scaledStrength,
-                    scaledDuration,
-                    color
+            PacketDistributor.sendToPlayer(
+                    player,
+                    new ClientEffectPayload(
+                            ClientEffectPayload.FLASH,
+                            0.0,
+                            0.0,
+                            0.0,
+                            scaledStrength,
+                            0.0f,
+                            color,
+                            scaledDuration
+                    )
             );
         }
     }
