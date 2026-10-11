@@ -1,10 +1,13 @@
-// 1.21.1	2026-10-03T19:58:49.0361863	Registrate Provider for createwarfare [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-10-10T14:28:53.3093452	Registrate Provider for createwarfare [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 5ec07dc673a588947adf1e7392a46f109d55bd27 assets/createwarfare/blockstates/centrifuge.json
 646884ae64c70e70d3bda7c036f48d0d5ca9816c assets/createwarfare/blockstates/deepslate_uranium_ore.json
+fbed239201df862e6ae97960a043942ddf57ce3a assets/createwarfare/blockstates/large_bomb.json
+6d6a10562158b37667224c769e141362ed4b8430 assets/createwarfare/blockstates/medium_bomb.json
+5e32da2fab4030d4f35f9600546247c95546e8e9 assets/createwarfare/blockstates/small_bomb.json
 6de2e027f99742d31a55ba5bb4bd7d85818483b1 assets/createwarfare/blockstates/test_block.json
 7026001d46432d9050578cd521f363500a4d2ace assets/createwarfare/blockstates/uranium_ore.json
-713e868089adb7bb66dc1cc26765e7ea63feb4bb assets/createwarfare/lang/en_ud.json
-f8194cd240d2dd84d60749473ef129abbf02c672 assets/createwarfare/lang/en_us.json
+6acb307d5cbf36e2f4a4a11b4bcae7a8a5362ee3 assets/createwarfare/lang/en_ud.json
+7f16842b2d62751418ef1e2684c6dadd2a66a304 assets/createwarfare/lang/en_us.json
 209150dbe39ec6c167d4748f2851664c4d77069b assets/createwarfare/models/block/deepslate_uranium_ore.json
 a70428c828b0037ce96e135fedd96dad832625a0 assets/createwarfare/models/block/test_block.json
 0a01a4452d21430ed4e2f0f28c434bd719520ff2 assets/createwarfare/models/block/uranium_ore.json
@@ -12,14 +15,21 @@ a70428c828b0037ce96e135fedd96dad832625a0 assets/createwarfare/models/block/test_
 da93a3ffec0fc0146db88153244e6738533a44c7 assets/createwarfare/models/item/deepslate_uranium_ore.json
 ded6da399f3e16218b5194f6023b13cfeafa61c1 assets/createwarfare/models/item/depleted_uranium.json
 86e8a299da186dd03a261b38fc215f3753bd71f1 assets/createwarfare/models/item/highly_enriched_uranium.json
+4b6fa01b08e08847ad94768caeab6bc15a9b2ab6 assets/createwarfare/models/item/large_bomb.json
 7e2f88a6c9e904fc4249a724f27e3561989a85a2 assets/createwarfare/models/item/low_enriched_uranium.json
+9a6ba6ce4f210b8b6050fb2f0beee6e6595ef23a assets/createwarfare/models/item/medium_bomb.json
 922651f0beea74d1c9d90beec4f08d7a459f9762 assets/createwarfare/models/item/natural_uranium.json
+09dcadb288f5ac7887311741ae6216fa818cec8a assets/createwarfare/models/item/small_bomb.json
 af1cccc6f8fe98a8b1410a38b087e37f1778d02c assets/createwarfare/models/item/test_block.json
 c20c9b9a5a4e3dd78040172774885476eb5d8d1f assets/createwarfare/models/item/uranium_ore.json
 f65f02441dbecb1e302f49b24d019643086d28db assets/createwarfare/models/item/weapons_grade_uranium.json
 6e039f67c2ad4d1637e486c33b039117169d0919 data/createwarfare/loot_table/blocks/centrifuge.json
 68534d2dd4b20cbddcf91c703ccc376e2da960a1 data/createwarfare/loot_table/blocks/deepslate_uranium_ore.json
+08edbff5d796deaf375965a75cc76ae1125df89c data/createwarfare/loot_table/blocks/large_bomb.json
+6f61ef63fc4edd755ffe79eaa0d9b67ed3c3bc6b data/createwarfare/loot_table/blocks/medium_bomb.json
+33465c30708de62f07656e48543921033d2804f7 data/createwarfare/loot_table/blocks/small_bomb.json
 97bdf3257efc197e11b20fdc0f7caeae1041b60c data/createwarfare/loot_table/blocks/test_block.json
 ed810326c05bea8d14550690f716e656ae1e84c4 data/createwarfare/loot_table/blocks/uranium_ore.json
 e62b4b320c1bbce3cf02cc20c6cfb046d7df69d8 data/minecraft/tags/block/mineable/pickaxe.json
-e62b4b320c1bbce3cf02cc20c6cfb046d7df69d8 data/minecraft/tags/block/needs_iron_tool.json
+ec650f11cb4410a1de803eabbf33f4561b8d4bbd data/minecraft/tags/block/needs_iron_tool.json
+5ce4385c1f77e3aa8ad24ea2854d1ebecfdda95f data/minecraft/tags/block/needs_stone_tool.json

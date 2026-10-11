@@ -1,6 +1,8 @@
 package com.julian.createwarfare.registry;
 
 import com.julian.createwarfare.CreateWarfare;
+import com.julian.createwarfare.effects.server.FragmentationEffect;
+import com.julian.createwarfare.effects.server.IncinerationWaveEffect;
 import com.julian.createwarfare.effects.server.PressureWaveEffect;
 import com.julian.createwarfare.effects.server.SoundWaveEffect;
 import com.julian.createwarfare.explosions.post.*;
@@ -54,6 +56,8 @@ public class CWServerTicker {
 
         PressureWaveEffect.tick();
         SoundWaveEffect.tick();
+        FragmentationEffect.tick();
+        IncinerationWaveEffect.tick();
 
         ShockwavePost.tick();
         SmokeRingPost.tick();

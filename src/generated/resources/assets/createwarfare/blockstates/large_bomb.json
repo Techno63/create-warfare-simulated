@@ -1,0 +1,82 @@
+{
+  "variants": {
+    "facing=down,part=0": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 180
+    },
+    "facing=down,part=1": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 180
+    },
+    "facing=down,part=2": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 180
+    },
+    "facing=east,part=0": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,part=1": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,part=2": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,part=0": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90
+    },
+    "facing=north,part=1": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90
+    },
+    "facing=north,part=2": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90
+    },
+    "facing=south,part=0": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,part=1": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,part=2": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,part=0": {
+      "model": "createwarfare:block/large_bomb"
+    },
+    "facing=up,part=1": {
+      "model": "createwarfare:block/large_bomb"
+    },
+    "facing=up,part=2": {
+      "model": "createwarfare:block/large_bomb"
+    },
+    "facing=west,part=0": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,part=1": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,part=2": {
+      "model": "createwarfare:block/large_bomb",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

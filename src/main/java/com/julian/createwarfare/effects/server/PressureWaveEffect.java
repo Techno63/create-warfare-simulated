@@ -34,6 +34,7 @@ public class PressureWaveEffect {
             float speed,
             float radius,
             float strength,
+            boolean affectSubLevels,
             boolean falloff
     ) {
         Position rawCenter =
@@ -52,6 +53,7 @@ public class PressureWaveEffect {
                         Math.max(speed, 0.01f),
                         Math.max(radius, 0.01f),
                         strength,
+                        affectSubLevels,
                         falloff
                 )
         );
@@ -72,7 +74,9 @@ public class PressureWaveEffect {
         private final float speed;
         private final float radius;
         private final float strength;
+        private final boolean affectSubLevels;
         private final boolean falloff;
+
         private final long startNanos =
                 System.nanoTime();
 
@@ -88,6 +92,7 @@ public class PressureWaveEffect {
                 float speed,
                 float radius,
                 float strength,
+                boolean affectSubLevels,
                 boolean falloff
         ) {
             this.level = level;
@@ -95,6 +100,7 @@ public class PressureWaveEffect {
             this.speed = speed;
             this.radius = radius;
             this.strength = strength;
+            this.affectSubLevels = affectSubLevels;
             this.falloff = falloff;
         }
 
@@ -160,17 +166,19 @@ public class PressureWaveEffect {
                 );
             }
 
-            applySableEffect(
-                    new BoundingBox3d(
-                            area.minX,
-                            area.minY,
-                            area.minZ,
-                            area.maxX,
-                            area.maxY,
-                            area.maxZ
-                    ),
-                    travelledSqr
-            );
+            if (affectSubLevels) {
+                applySableEffect(
+                        new BoundingBox3d(
+                                area.minX,
+                                area.minY,
+                                area.minZ,
+                                area.maxX,
+                                area.maxY,
+                                area.maxZ
+                        ),
+                        travelledSqr
+                );
+            }
 
             return travelled < radius;
         }

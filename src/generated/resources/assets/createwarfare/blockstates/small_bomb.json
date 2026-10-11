@@ -1,0 +1,108 @@
+{
+  "variants": {
+    "facing=down,powered=false,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 180
+    },
+    "facing=down,powered=false,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 180
+    },
+    "facing=down,powered=true,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 180
+    },
+    "facing=down,powered=true,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 180
+    },
+    "facing=east,powered=false,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,powered=false,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,powered=true,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,powered=true,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,powered=false,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90
+    },
+    "facing=north,powered=false,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90
+    },
+    "facing=north,powered=true,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90
+    },
+    "facing=north,powered=true,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90
+    },
+    "facing=south,powered=false,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,powered=false,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,powered=true,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,powered=true,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,powered=false,upper=false": {
+      "model": "createwarfare:block/small_bomb"
+    },
+    "facing=up,powered=false,upper=true": {
+      "model": "createwarfare:block/small_bomb"
+    },
+    "facing=up,powered=true,upper=false": {
+      "model": "createwarfare:block/small_bomb"
+    },
+    "facing=up,powered=true,upper=true": {
+      "model": "createwarfare:block/small_bomb"
+    },
+    "facing=west,powered=false,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,powered=false,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,powered=true,upper=false": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,powered=true,upper=true": {
+      "model": "createwarfare:block/small_bomb",
+      "x": 90,
+      "y": 270
+    }
+  }
+}
