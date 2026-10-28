@@ -1,5 +1,6 @@
 package com.julian.createwarfare.blocks;
 
+import com.julian.createwarfare.blocks.entities.CentrifugeBlockEntity;
 import com.julian.createwarfare.registry.CWBlockEntities;
 import com.julian.createwarfare.registry.CWBlocks;
 import com.simibubi.create.content.kinetics.base.KineticBlock;

@@ -1,15 +1,11 @@
 package com.julian.createwarfare.blocks.entities;
 
 import com.julian.createwarfare.blocks.MediumBombBlock;
-import com.julian.createwarfare.effects.server.ExplosionParticleEffect;
-import com.julian.createwarfare.effects.server.FragmentationEffect;
-import com.julian.createwarfare.effects.server.GlowEffect;
-import com.julian.createwarfare.effects.server.IncinerationWaveEffect;
-import com.julian.createwarfare.effects.server.PressureWaveEffect;
-import com.julian.createwarfare.effects.server.ShakeEffect;
-import com.julian.createwarfare.effects.server.SoundWaveEffect;
-import com.julian.createwarfare.effects.server.VignetteEffect;
-import com.julian.createwarfare.effects.server.WaveEffect;
+import com.julian.createwarfare.effects.server.*;
+import com.julian.createwarfare.effects.server.particles.GroundExplosionParticleEffect;
+import com.julian.createwarfare.explosions.post.FragmentationPost;
+import com.julian.createwarfare.explosions.post.IncinerationWavePost;
+import com.julian.createwarfare.explosions.post.PressureWavePost;
 import com.julian.createwarfare.explosions.types.GenericExplosion;
 import com.julian.createwarfare.registry.CWSoundEvents;
 import dev.ryanhcode.sable.Sable;
@@ -39,7 +35,7 @@ import java.util.List;
 
 public class MediumBombBlockEntity extends BlockEntity implements BlockEntitySubLevelActor {
 
-    private static final double ARM_DELAY = 2.0;
+    private static final double ARM_DELAY = 0.6;
     private static final double IMPACT_RAY_DISTANCE = 1.0;
     private static final double MIN_IMPACT_SPEED = 1.5;
 
@@ -356,7 +352,7 @@ public class MediumBombBlockEntity extends BlockEntity implements BlockEntitySub
                 level,
                 impactPos,
                 600f,
-                20f,
+                10f,
                 12f
         );
 
@@ -369,7 +365,7 @@ public class MediumBombBlockEntity extends BlockEntity implements BlockEntitySub
                 true
         );
 
-        PressureWaveEffect.start(
+        PressureWavePost.start(
                 level,
                 impactPos,
                 2f,
@@ -379,18 +375,18 @@ public class MediumBombBlockEntity extends BlockEntity implements BlockEntitySub
                 true
         );
 
-        FragmentationEffect.start(
+        FragmentationPost.start(
                 level,
                 impactPos,
-                3f,
-                100f,
+                1.5f,
+                125f,
                 500,
                 1.5f,
                 20f,
-                true
+                false
         );
 
-        IncinerationWaveEffect.start(
+        IncinerationWavePost.start(
                 level,
                 impactPos,
                 2f,
@@ -438,7 +434,7 @@ public class MediumBombBlockEntity extends BlockEntity implements BlockEntitySub
                 true
         );
 
-        ExplosionParticleEffect.start(
+        GroundExplosionParticleEffect.start(
                 level,
                 impactPos,
                 3f

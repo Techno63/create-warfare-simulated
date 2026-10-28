@@ -2,6 +2,7 @@ package com.julian.createwarfare.explosions.types;
 
 import com.julian.createwarfare.explosions.CustomExplosion;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
 public class GenericExplosion {
@@ -14,13 +15,13 @@ public class GenericExplosion {
             float damage
     ) {
         CustomExplosion.explode(
-                level,
-                pos.getX() + 0.5,
-                pos.getY() + 0.5,
-                pos.getZ() + 0.5,
+                (ServerLevel) level,
+                pos,
                 power,
                 radius,
-                damage
+                damage,
+                true,
+                true
         );
     }
 }

@@ -1,16 +1,9 @@
 package com.julian.createwarfare.registry;
 
 import com.julian.createwarfare.CreateWarfare;
-import com.julian.createwarfare.effects.server.FragmentationEffect;
-import com.julian.createwarfare.effects.server.IncinerationWaveEffect;
-import com.julian.createwarfare.effects.server.PressureWaveEffect;
-import com.julian.createwarfare.effects.server.SoundWaveEffect;
+import com.julian.createwarfare.effects.server.*;
+import com.julian.createwarfare.effects.server.particles.GroundExplosionParticleEffect;
 import com.julian.createwarfare.explosions.post.*;
-import com.julian.createwarfare.explosions.post.radiation.RadiationChunks;
-import com.julian.createwarfare.explosions.post.radiation.RadiationExposure;
-import com.julian.createwarfare.items.GeigerCounterItem;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
@@ -54,24 +47,12 @@ public class CWServerTicker {
             }
         }
 
-        PressureWaveEffect.tick();
+        PressureWavePost.tick();
         SoundWaveEffect.tick();
-        FragmentationEffect.tick();
-        IncinerationWaveEffect.tick();
+        FragmentationPost.tick();
+        IncinerationWavePost.tick();
+        GroundExplosionParticleEffect.tick();
 
-        ShockwavePost.tick();
-        SmokeRingPost.tick();
-
-        for (ServerLevel level :
-                event.getServer().getAllLevels()) {
-
-            RadiationChunks.tick(level);
-
-            for (ServerPlayer player : level.players()) {
-                RadiationExposure.tick(player);
-                GeigerCounterItem.tick(player);
-            }
-        }
     }
 
     private static class ScheduledTask {

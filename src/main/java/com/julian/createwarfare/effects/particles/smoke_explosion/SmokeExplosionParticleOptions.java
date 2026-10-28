@@ -1,4 +1,4 @@
-package com.julian.createwarfare.effects.particles.explosions;
+package com.julian.createwarfare.effects.particles.smoke_explosion;
 
 import com.julian.createwarfare.registry.CWParticles;
 import com.mojang.serialization.Codec;
@@ -10,7 +10,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-public record SmokeExplosionParticleOptions(float size)
+public record SmokeExplosionParticleOptions(float size, int lifetime)
         implements ParticleOptions {
 
     public static final MapCodec<SmokeExplosionParticleOptions> CODEC =
@@ -18,9 +18,10 @@ public record SmokeExplosionParticleOptions(float size)
                     instance -> instance.group(
                             Codec.FLOAT
                                     .fieldOf("size")
-                                    .forGetter(
-                                            SmokeExplosionParticleOptions::size
-                                    )
+                                    .forGetter(SmokeExplosionParticleOptions::size),
+                            Codec.INT
+                                    .fieldOf("lifetime")
+                                    .forGetter(SmokeExplosionParticleOptions::lifetime)
                     ).apply(
                             instance,
                             SmokeExplosionParticleOptions::new
@@ -34,8 +35,19 @@ public record SmokeExplosionParticleOptions(float size)
             StreamCodec.composite(
                     ByteBufCodecs.FLOAT,
                     SmokeExplosionParticleOptions::size,
+                    ByteBufCodecs.VAR_INT,
+                    SmokeExplosionParticleOptions::lifetime,
                     SmokeExplosionParticleOptions::new
             );
+
+    public SmokeExplosionParticleOptions {
+        size = Float.isFinite(size) ? Math.max(0.1f, size) : 0.1f;
+        lifetime = Math.max(12, lifetime);
+    }
+
+    public SmokeExplosionParticleOptions(float size) {
+        this(size, 70);
+    }
 
     @Override
     public ParticleType<?> getType() {

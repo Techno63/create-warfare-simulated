@@ -1,7 +1,6 @@
 package com.julian.createwarfare.registry;
 
 import com.julian.createwarfare.CreateWarfare;
-import com.julian.createwarfare.blocks.*;
 import com.julian.createwarfare.blocks.entities.*;
 import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.content.kinetics.base.ShaftRenderer;
@@ -29,7 +28,7 @@ public class CWBlockEntities {
 
     public static final BlockEntityEntry<SmallBombBlockEntity> SMALL_BOMB = REGISTRATE
             .blockEntity(
-                    "mk81",
+                    "small_bomb",
                     SmallBombBlockEntity::new
             )
             .validBlocks(CWBlocks.SMALL_BOMB)
@@ -37,7 +36,7 @@ public class CWBlockEntities {
 
     public static final BlockEntityEntry<MediumBombBlockEntity> MEDIUM_BOMB = REGISTRATE
             .blockEntity(
-                    "mk82",
+                    "medium_bomb",
                     MediumBombBlockEntity::new
             )
             .validBlocks(CWBlocks.MEDIUM_BOMB)
@@ -45,19 +44,12 @@ public class CWBlockEntities {
 
     public static final BlockEntityEntry<LargeBombBlockEntity> LARGE_BOMB = REGISTRATE
             .blockEntity(
-                    "mk83",
+                    "large_bomb",
                     LargeBombBlockEntity::new
             )
             .validBlocks(CWBlocks.LARGE_BOMB)
             .register();
 
-    public static final BlockEntityEntry<AirToAirMissileBlockEntity> AIR_TO_AIR_MISSILE = REGISTRATE
-            .blockEntity(
-                    "air_to_air_missile",
-                    AirToAirMissileBlockEntity::new
-            )
-            .validBlocks(CWBlocks.AIR_TO_AIR_MISSILE)
-            .register();
 
     public static void register(IEventBus modEventBus) {
         modEventBus.addListener(

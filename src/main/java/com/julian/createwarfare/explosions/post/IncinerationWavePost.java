@@ -1,4 +1,4 @@
-package com.julian.createwarfare.effects.server;
+package com.julian.createwarfare.explosions.post;
 
 import dev.ryanhcode.sable.Sable;
 import dev.ryanhcode.sable.sublevel.SubLevel;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class IncinerationWaveEffect {
+public class IncinerationWavePost {
 
     private static final List<IncinerationWave> WAVES =
             new ArrayList<>();

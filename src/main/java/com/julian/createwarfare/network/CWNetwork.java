@@ -1,3 +1,4 @@
+
 package com.julian.createwarfare.network;
 
 import net.neoforged.bus.api.IEventBus;
@@ -22,18 +23,14 @@ public final class CWNetwork {
                         WavePayload::handle
                 )
                 .playToClient(
-                        MushroomCapPayload.TYPE,
-                        MushroomCapPayload.STREAM_CODEC,
-                        MushroomCapPayload::handle
-                ).playToClient(
+                        TracerPayload.TYPE,
+                        TracerPayload.STREAM_CODEC,
+                        TracerPayload::handle
+                )
+                .playToClient(
                         ClientEffectPayload.TYPE,
                         ClientEffectPayload.STREAM_CODEC,
-                        (payload, context) ->
-                                context.enqueueWork(() ->
-                                        ClientEffectPayloadHandler.handle(
-                                                payload
-                                        )
-                                )
+                        ClientEffectPayload::handle
                 );
     }
 }

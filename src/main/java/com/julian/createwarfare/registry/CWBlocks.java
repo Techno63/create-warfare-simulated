@@ -86,30 +86,6 @@ public class CWBlocks {
             .lang("Large Bomb")
             .register();
 
-    public static final BlockEntry<AirToAirMissileBlock> AIR_TO_AIR_MISSILE = REGISTRATE
-            .block("air_to_air_missile", AirToAirMissileBlock::new)
-            .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(properties -> properties
-                    .noOcclusion()
-                    .forceSolidOff()
-                    .isViewBlocking((state, level, pos) -> false)
-                    .isSuffocating((state, level, pos) -> false)
-                    .isRedstoneConductor((state, level, pos) -> false)
-            )
-            .simpleItem()
-            .tag(BlockTags.NEEDS_IRON_TOOL)
-            .blockstate((ctx, prov) ->
-                    prov.directionalBlock(
-                            ctx.getEntry(),
-                            state -> prov.models().getExistingFile(
-                                    prov.modLoc("block/air_to_air_missile")
-                            ),
-                            0
-                    )
-            )
-            .lang("Air-to-Air Missile")
-            .register();
-
     public static final BlockEntry<CentrifugeBlock> CENTRIFUGE = REGISTRATE
             .block("centrifuge", CentrifugeBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
@@ -156,6 +132,8 @@ public class CWBlocks {
             .simpleItem()
             .register();
 
+    public static void register() {
 
-    public static void register() {}
+    }
+
 }

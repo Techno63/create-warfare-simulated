@@ -1,4 +1,4 @@
-package com.julian.createwarfare.blocks;
+package com.julian.createwarfare.blocks.entities;
 
 import com.julian.createwarfare.recipes.CentrifugingRecipe;
 import com.julian.createwarfare.registry.CWBlockEntities;

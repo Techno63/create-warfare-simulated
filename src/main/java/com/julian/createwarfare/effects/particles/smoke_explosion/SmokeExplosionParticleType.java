@@ -1,6 +1,5 @@
-package com.julian.createwarfare.effects.particles.explosions;
+package com.julian.createwarfare.effects.particles.smoke_explosion;
 
-import com.julian.createwarfare.effects.particles.explosions.SmokeExplosionParticleOptions;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;

@@ -1,4 +1,4 @@
-package com.julian.createwarfare.effects.server;
+package com.julian.createwarfare.explosions.post;
 
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.companion.SableCompanion;
@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class PressureWaveEffect {
+public class PressureWavePost {
 
     private static final float NANOS_PER_TICK =
             50_000_000.0f;

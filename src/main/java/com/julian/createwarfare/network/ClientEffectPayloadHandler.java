@@ -14,64 +14,47 @@ public final class ClientEffectPayloadHandler {
     private ClientEffectPayloadHandler() {
     }
 
-    public static void handle(
-            ClientEffectPayload payload
-    ) {
+    public static void handle(ClientEffectPayload payload) {
         switch (payload.effect()) {
-            case ClientEffectPayload.GLOW -> {
-                ScreenGlowHandler.glow(
-                        new Vec3(
-                                payload.x(),
-                                payload.y(),
-                                payload.z()
-                        ),
-                        payload.value1(),
-                        payload.value3(),
-                        payload.value2(),
-                        payload.value4()
-                );
-            }
+            case ClientEffectPayload.GLOW -> ScreenGlowHandler.glow(
+                    new Vec3(payload.x(), payload.y(), payload.z()),
+                    payload.value1(),
+                    payload.value3(),
+                    payload.value2(),
+                    payload.value4()
+            );
 
-            case ClientEffectPayload.FLASH -> {
-                ScreenFlashHandler.flash(
-                        payload.value1(),
-                        payload.value4(),
-                        payload.value3()
-                );
-            }
+            case ClientEffectPayload.FLASH -> ScreenFlashHandler.flash(
+                    payload.value1(),
+                    payload.value4(),
+                    payload.value3()
+            );
 
-            case ClientEffectPayload.BLUR -> {
-                ScreenBlurHandler.blur(
-                        payload.value1(),
-                        payload.value4()
-                );
-            }
+            case ClientEffectPayload.BLUR -> ScreenBlurHandler.blur(
+                    payload.value1(),
+                    payload.value4()
+            );
 
-            case ClientEffectPayload.SHAKE -> {
-                ScreenShakeHandler.shake(
-                        payload.value1(),
-                        payload.value4()
-                );
-            }
+            case ClientEffectPayload.SHAKE -> ScreenShakeHandler.shake(
+                    payload.value1(),
+                    payload.value4()
+            );
 
-            case ClientEffectPayload.VIGNETTE -> {
-                ScreenVignetteHandler.vignette(
-                        payload.value1(),
-                        payload.value4()
-                );
-            }
+            case ClientEffectPayload.VIGNETTE -> ScreenVignetteHandler.vignette(
+                    payload.value1(),
+                    payload.value4()
+            );
 
-            case ClientEffectPayload.HEARTBEAT -> {
-                HeartbeatHandler.start(
-                        payload.value3(),
-                        payload.value4()
-                );
-            }
+            case ClientEffectPayload.HEARTBEAT -> HeartbeatHandler.start(
+                    payload.value3(),
+                    payload.value4()
+            );
 
-            case ClientEffectPayload.TINNITUS -> {
-                TinnitusHandler.start(
-                        payload.value4()
-                );
+            case ClientEffectPayload.TINNITUS -> TinnitusHandler.start(
+                    payload.value4()
+            );
+
+            default -> {
             }
         }
     }
