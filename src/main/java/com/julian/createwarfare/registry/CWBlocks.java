@@ -2,13 +2,17 @@ package com.julian.createwarfare.registry;
 
 import com.julian.createwarfare.CreateWarfare;
 import com.julian.createwarfare.blocks.*;
+import com.julian.createwarfare.blocks.ShortRangeBallisticMissileBlock;
+import com.julian.createwarfare.items.GeoBlockItem;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
+import static net.neoforged.neoforge.client.model.generators.ConfiguredModel.builder;
 
 public class CWBlocks {
     public static final CreateRegistrate REGISTRATE = CreateWarfare.REGISTRATE;
@@ -20,8 +24,10 @@ public class CWBlocks {
             .lang("Test Block")
             .register();
 
-    public static final BlockEntry<SmallBombBlock> SMALL_BOMB = REGISTRATE
-            .block("small_bomb", SmallBombBlock::new)
+    //------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public static final BlockEntry<ShortRangeBallisticMissileBlock> SHORT_RANGE_BALLISTIC_MISSILE = REGISTRATE
+            .block("short_range_ballistic_missile", ShortRangeBallisticMissileBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(properties -> properties
                     .noOcclusion()
@@ -30,42 +36,38 @@ public class CWBlocks {
                     .isSuffocating((state, level, pos) -> false)
                     .isRedstoneConductor((state, level, pos) -> false)
             )
-            .simpleItem()
-            .tag(BlockTags.NEEDS_STONE_TOOL)
-            .blockstate((ctx, prov) ->
-                    prov.directionalBlock(
-                            ctx.getEntry(),
-                            state -> prov.models().getExistingFile(prov.modLoc("block/small_bomb")),
-                            180
+            .item((block, properties) -> new GeoBlockItem(
+                    block,
+                    properties,
+                    "geo/short_range_ballistic_missile.geo.json",
+                    "textures/block/short_range_ballistic_missile.png",
+                    1.0f,
+                    0
+            ))
+            .model((context, provider) ->
+                    provider.withExistingParent(
+                            context.getName(),
+                            provider.modLoc("block/short_range_ballistic_missile")
                     )
             )
-            .lang("Small Bomb")
-            .register();
-
-    public static final BlockEntry<MediumBombBlock> MEDIUM_BOMB = REGISTRATE
-            .block("medium_bomb", MediumBombBlock::new)
-            .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(properties -> properties
-                    .noOcclusion()
-                    .forceSolidOff()
-                    .isViewBlocking((state, level, pos) -> false)
-                    .isSuffocating((state, level, pos) -> false)
-                    .isRedstoneConductor((state, level, pos) -> false)
-            )
-            .simpleItem()
+            .build()
             .tag(BlockTags.NEEDS_IRON_TOOL)
             .blockstate((ctx, prov) ->
-                    prov.directionalBlock(
-                            ctx.getEntry(),
-                            state -> prov.models().getExistingFile(prov.modLoc("block/medium_bomb")),
-                            180
+                    prov.getVariantBuilder(ctx.getEntry()).forAllStates(state ->
+                            builder()
+                                    .modelFile(prov.models().getExistingFile(
+                                            prov.modLoc("block/short_range_ballistic_missile")
+                                    ))
+                                    .build()
                     )
             )
-            .lang("Medium Bomb")
+            .lang("Short-Range Ballistic Missile")
             .register();
 
-    public static final BlockEntry<LargeBombBlock> LARGE_BOMB = REGISTRATE
-            .block("large_bomb", LargeBombBlock::new)
+    //------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public static final BlockEntry<HEWarheadBlock> HE_WARHEAD = REGISTRATE
+            .block("he_warhead", HEWarheadBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(properties -> properties
                     .noOcclusion()
@@ -74,17 +76,20 @@ public class CWBlocks {
                     .isSuffocating((state, level, pos) -> false)
                     .isRedstoneConductor((state, level, pos) -> false)
             )
-            .simpleItem()
-            .tag(BlockTags.NEEDS_IRON_TOOL)
-            .blockstate((ctx, prov) ->
-                    prov.directionalBlock(
-                            ctx.getEntry(),
-                            state -> prov.models().getExistingFile(prov.modLoc("block/large_bomb")),
-                            180
+            .blockstate((context, provider) ->
+                    provider.simpleBlock(
+                            context.getEntry(),
+                            provider.models().cubeAll(
+                                    context.getName(),
+                                    provider.modLoc("block/he_warhead")
+                            )
                     )
             )
-            .lang("Large Bomb")
+            .simpleItem()
+            .lang("HE Warhead")
             .register();
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public static final BlockEntry<CentrifugeBlock> CENTRIFUGE = REGISTRATE
             .block("centrifuge", CentrifugeBlock::new)
@@ -94,17 +99,29 @@ public class CWBlocks {
                     .forceSolidOff()
             )
             .blockstate((context, provider) ->
-                    provider.simpleBlock(
-                            context.getEntry(),
-                            provider.models().getExistingFile(
-                                    provider.modLoc("block/centrifuge")
-                            )
+                    provider.getVariantBuilder(context.getEntry()).forAllStates(state ->
+                            builder()
+                                    .modelFile(provider.models().getExistingFile(
+                                            ResourceLocation.fromNamespaceAndPath("minecraft", "block/air")
+                                    ))
+                                    .build()
                     )
             )
             .tag(BlockTags.NEEDS_IRON_TOOL)
-            .simpleItem()
+            .item((block, properties) -> new GeoBlockItem(
+                    block,
+                    properties,
+                    "geo/centrifuge.geo.json",
+                    "textures/block/centrifuge.png",
+                    0.6f,
+                    16
+            ))
+            .model((context, provider) -> {})
+            .build()
             .lang("Centrifuge")
             .register();
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public static final BlockEntry<Block> URANIUM_ORE = REGISTRATE
             .block("uranium_ore", Block::new)
@@ -131,6 +148,8 @@ public class CWBlocks {
             .loot((lt, block) -> lt.dropOther(block, CWItems.NATURAL_URANIUM.get()))
             .simpleItem()
             .register();
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public static void register() {
 

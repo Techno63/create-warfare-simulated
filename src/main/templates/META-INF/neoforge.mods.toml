@@ -38,3 +38,24 @@ Create Mod Addon.
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="aeronautics"
+    type="required"
+    versionRange="[${aeronautics_mod_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="simulated"
+    type="required"
+    versionRange="[${aeronautics_mod_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="offroad"
+    type="required"
+    versionRange="[${aeronautics_mod_version},)"
+    ordering="NONE"
+    side="BOTH"

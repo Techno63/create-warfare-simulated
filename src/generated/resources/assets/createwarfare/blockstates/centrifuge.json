@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "createwarfare:block/centrifuge"
+      "model": "minecraft:block/air"
     }
   }
 }

@@ -1,16 +1,14 @@
 {
   "block.createwarfare.centrifuge": "ǝbnɟıɹʇuǝƆ",
   "block.createwarfare.deepslate_uranium_ore": "ǝɹO ɯnıuɐɹ∩ ǝʇɐןsdǝǝᗡ",
-  "block.createwarfare.large_bomb": "qɯoᗺ ǝbɹɐꞀ",
-  "block.createwarfare.medium_bomb": "qɯoᗺ ɯnıpǝW",
-  "block.createwarfare.small_bomb": "qɯoᗺ ןןɐɯS",
+  "block.createwarfare.short_range_ballistic_missile": "ǝןıssıW ɔıʇsıןןɐᗺ ǝbuɐᴚ-ʇɹoɥS",
   "block.createwarfare.test_block": "ʞɔoןᗺ ʇsǝ⟘",
   "block.createwarfare.uranium_ore": "ǝɹO ɯnıuɐɹ∩",
   "item.createwarfare.depleted_uranium": "ɯnıuɐɹ∩ pǝʇǝןdǝᗡ",
-  "item.createwarfare.geiger_counter": "ɹǝʇunoƆ ɹǝbıǝ⅁",
   "item.createwarfare.highly_enriched_uranium": "ɯnıuɐɹ∩ pǝɥɔıɹuƎ-ʎןɥbıH",
   "item.createwarfare.low_enriched_uranium": "ɯnıuɐɹ∩ pǝɥɔıɹuƎ-ʍoꞀ",
   "item.createwarfare.natural_uranium": "ɯnıuɐɹ∩ ןɐɹnʇɐN",
   "item.createwarfare.weapons_grade_uranium": "ɯnıuɐɹ∩ ǝpɐɹ⅁-suodɐǝM",
+  "item.createwarfare.yellowcake": "ǝʞɐɔʍoןןǝʎ",
   "itemGroup.createwarfare.base_tab": "qɐ⟘ ǝsɐᗺ"
 }

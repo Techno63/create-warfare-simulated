@@ -1,7 +1,7 @@
 {
   "type": "createwarfare:centrifuging",
   "ingredient": {
-    "item": "createwarfare:natural_uranium"
+    "item": "createwarfare:yellowcake"
   },
   "primary_output": {
     "id": "createwarfare:low_enriched_uranium",

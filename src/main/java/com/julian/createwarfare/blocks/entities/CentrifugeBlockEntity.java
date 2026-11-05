@@ -16,10 +16,14 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 
-public class CentrifugeBlockEntity extends KineticBlockEntity {
+public class CentrifugeBlockEntity extends KineticBlockEntity implements GeoBlockEntity {
 
     private static final int INVENTORY_SIZE = 9;
 
@@ -45,6 +49,7 @@ public class CentrifugeBlockEntity extends KineticBlockEntity {
     };
 
     private int processingProgress = 0;
+    private final AnimatableInstanceCache animatableInstanceCache = GeckoLibUtil.createInstanceCache(this);
 
     public CentrifugeBlockEntity(
             BlockEntityType<?> type,
@@ -52,6 +57,15 @@ public class CentrifugeBlockEntity extends KineticBlockEntity {
             BlockState state
     ) {
         super(type, pos, state);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return animatableInstanceCache;
     }
 
     @Override

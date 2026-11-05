@@ -2,8 +2,9 @@ package com.julian.createwarfare.registry;
 
 import com.julian.createwarfare.CreateWarfare;
 import com.julian.createwarfare.blocks.entities.*;
+import com.julian.createwarfare.blocks.renderers.CentrifugeRenderer;
+import com.julian.createwarfare.blocks.renderers.ShortRangeBallisticMissileRenderer;
 import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
-import com.simibubi.create.content.kinetics.base.ShaftRenderer;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import net.neoforged.bus.api.IEventBus;
@@ -23,33 +24,29 @@ public class CWBlockEntities {
                             false
                     )
                     .validBlocks(CWBlocks.CENTRIFUGE)
-                    .renderer(() -> ShaftRenderer::new)
+                    .renderer(() -> CentrifugeRenderer::new)
                     .register();
 
-    public static final BlockEntityEntry<SmallBombBlockEntity> SMALL_BOMB = REGISTRATE
+    //------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public static final BlockEntityEntry<ShortRangeBallisticMissileBlockEntity> SHORT_RANGE_BALLISTIC_MISSILE = REGISTRATE
             .blockEntity(
-                    "small_bomb",
-                    SmallBombBlockEntity::new
+                    "short_range_ballistic_missile",
+                    ShortRangeBallisticMissileBlockEntity::new
             )
-            .validBlocks(CWBlocks.SMALL_BOMB)
+            .validBlock(CWBlocks.SHORT_RANGE_BALLISTIC_MISSILE)
+            .renderer(() -> ShortRangeBallisticMissileRenderer::new)
             .register();
 
-    public static final BlockEntityEntry<MediumBombBlockEntity> MEDIUM_BOMB = REGISTRATE
-            .blockEntity(
-                    "medium_bomb",
-                    MediumBombBlockEntity::new
-            )
-            .validBlocks(CWBlocks.MEDIUM_BOMB)
-            .register();
+    //------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    public static final BlockEntityEntry<LargeBombBlockEntity> LARGE_BOMB = REGISTRATE
+    public static final BlockEntityEntry<HEWarheadBlockEntity> HE_WARHEAD = REGISTRATE
             .blockEntity(
-                    "large_bomb",
-                    LargeBombBlockEntity::new
+                    "he_warhead",
+                    HEWarheadBlockEntity::new
             )
-            .validBlocks(CWBlocks.LARGE_BOMB)
+            .validBlock(CWBlocks.HE_WARHEAD)
             .register();
-
 
     public static void register(IEventBus modEventBus) {
         modEventBus.addListener(

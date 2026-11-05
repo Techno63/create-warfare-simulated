@@ -1,7 +1,6 @@
 {
   "values": [
-    "createwarfare:medium_bomb",
-    "createwarfare:large_bomb",
+    "createwarfare:short_range_ballistic_missile",
     "createwarfare:centrifuge",
     "createwarfare:uranium_ore",
     "createwarfare:deepslate_uranium_ore"

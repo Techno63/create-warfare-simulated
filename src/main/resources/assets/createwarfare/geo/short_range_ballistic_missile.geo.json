@@ -1,0 +1,32 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.tactical_ballistic_missile",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 6,
+				"visible_bounds_offset": [0, 2, 0]
+			},
+			"bones": [
+				{
+					"name": "bb_main",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-8, 4, -8], "size": [16, 60, 16], "uv": [0, 0]},
+						{"origin": [-13, 2, -1], "size": [26, 10, 2], "uv": [64, 0]},
+						{"origin": [-13, 2, -1], "size": [26, 10, 2], "pivot": [0, 2, 0], "rotation": [0, -90, 0], "uv": [64, 12]},
+						{"origin": [-11, 12, -1], "size": [22, 5, 2], "pivot": [0, 12, 0], "rotation": [0, -90, 0], "uv": [64, 40]},
+						{"origin": [-11, 12, -1], "size": [22, 5, 2], "uv": [64, 47]},
+						{"origin": [-10, 37, -1], "size": [20, 5, 2], "uv": [64, 54]},
+						{"origin": [-10, 37, -1], "size": [20, 5, 2], "pivot": [0, 37, 0], "rotation": [0, -90, 0], "uv": [64, 61]},
+						{"origin": [-11, 31, -1], "size": [22, 6, 2], "pivot": [0, 27, 0], "rotation": [0, -90, 0], "uv": [64, 24]},
+						{"origin": [-11, 31, -1], "size": [22, 6, 2], "uv": [64, 32]}
+					]
+				}
+			]
+		}
+	]
+}

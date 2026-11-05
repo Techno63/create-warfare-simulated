@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "part=0": {
+      "model": "createwarfare:block/short_range_ballistic_missile"
+    },
+    "part=1": {
+      "model": "createwarfare:block/short_range_ballistic_missile"
+    },
+    "part=2": {
+      "model": "createwarfare:block/short_range_ballistic_missile"
+    },
+    "part=3": {
+      "model": "createwarfare:block/short_range_ballistic_missile"
+    }
+  }
+}

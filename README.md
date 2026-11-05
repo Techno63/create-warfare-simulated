@@ -1,193 +1,103 @@
-# Create: Warfare Simulated
+# Create: Warfare
 
-**Create: Warfare Simulated** is a realism-focused warfare and industrial expansion for Minecraft, built around **Create**, **Aeronautics**, **Sable**, and custom simulation systems.
+**Create: Warfare** is a Minecraft mod that brings military technology, advanced weaponry, and large-scale combat systems into the world of Create.
 
-The goal is to make modern warfare feel like an actual interconnected system rather than simply adding stronger weapons.
+Built around Create and its surrounding ecosystem, the mod focuses on functional weapons, realistic projectile behaviour, physics-based interactions, and large-scale visual effects.
 
 ## Features
 
-### Explosions & Effects
+### Weapon Systems
 
-* Realistic explosion effects with configurable radius and power
-* Directional damage and blast effects
-* Fragmentation effects
-* Pressure waves and shockwaves
-* Smoke and fire effects
-* Screen flash with distance and direction-based intensity
-* Screen shake
-* Tinnitus and heartbeat effects
-* Blood and visual damage effects
-* Radiation exposure and radiation zones
-* Geiger counter system
-* Custom 3D fireball effects
-* Large-scale mushroom cloud visuals
-* Server-side effect simulation
+- **Bombs** — Multiple bomb sizes designed for different applications.
+- **Missiles** — Guided missile systems, including air-to-air and ballistic missile designs.
+- **Custom Explosions** — Configurable blast behaviour, entity damage, and terrain destruction.
+- **Napalm** — Incendiary weapon systems and fire-related effects.
 
-### Nuclear & Radiation Simulation
+### Visual Effects
 
-* Radiation zones measured in **Sv/h**
-* Player radiation exposure tracking
-* Radiation falloff with distance
-* Radiation decay over time
-* Persistent radiation data
-* Geiger counter feedback
-* Radiation sickness effects
-* Long-term radiation damage
-* Nuclear explosion visual effects
+Create: Warfare includes custom effects designed to make combat more immersive:
 
-### Weapons
+- Large-scale explosions and shockwaves.
+- Mushroom clouds and rising smoke columns.
+- Pressure waves and sound-wave effects.
+- Missile exhaust, smoke trails, and tracers.
+- Screen shake, flashes, and explosion lighting.
 
-* Explosives with different blast characteristics
-* Fragmentation
-* Breaching charges
-* Large-scale explosions
-* Directional explosives
-* Custom ammunition systems
-* Vehicle-mounted weapon systems
+### Physics and Destruction
 
-### Vehicles
+Using Sable and its sublevel system, the mod experiments with physics-based interactions and moving structures.
 
-Built around **Aeronautics**, **Offroad**, and **Simulated**.
+- Physics-driven projectiles and payloads.
+- Terrain displacement and debris.
+- Interaction between explosions and the surrounding environment.
+- Support for moving structures and sublevels.
 
-Planned vehicle systems include:
+### Radiation
 
-* Military vehicles
-* Armored vehicles
-* Aircraft
-* Vehicle-mounted weapons
-* Damage simulation
-* Engine and fuel systems
-* Ammunition storage
-* Vehicle targeting systems
+Nuclear-related systems include persistent radiation data, environmental exposure, and uranium generation.
 
-## Planned Features
+- Radiation levels stored per chunk.
+- Radiation exposure affecting entities.
+- Radiation decay over time.
+- Uranium ore world generation.
+- Radiation management command: `/cw radiation clear`.
 
-### Missile Systems
+## Requirements
 
-* Ballistic missiles
-* Cruise missiles
-* Air-to-air missiles
-* Surface-to-air missiles
-* Radar-guided weapons
-* Infrared-guided weapons
-* Missile guidance
-* Target tracking
-* Electronic countermeasures
-* Missile interception systems
+Create: Warfare is developed for the following environment:
 
-### Missile Interception
+| Component | Version |
+|---|---|
+| Minecraft | 1.21.1 |
+| Mod Loader | NeoForge |
+| NeoForge | 21.1.248 |
+| Create | 6.0.10 |
+| Java | 21 |
 
-A complete air-defense system is planned.
+The mod also uses supporting libraries and integrations, including:
 
-Potential systems include:
+- Flywheel
+- Ponder
+- Sable
+- Sable Companion
+- Veil
 
-* Early-warning radar
-* Target detection
-* Target tracking
-* SAM batteries
-* Interceptor missiles
-* Point-defense systems
-* Automatic target selection
-* Interceptor guidance
-* Multiple simultaneous targets
-* Radar coverage visualization
+Additional Create ecosystem mods may be required depending on the features included in a particular release.
 
-The goal is to allow players to build interconnected air-defense networks rather than simply using a single anti-missile block.
+## Installation
 
-### Uranium Processing
+1. Install Minecraft 1.21.1.
+2. Install NeoForge.
+3. Install the required version of Create.
+4. Download the required dependencies.
+5. Place Create: Warfare and its dependencies into your `mods` folder.
+6. Launch Minecraft.
 
-A detailed uranium-processing chain is planned.
+Make sure all installed mods use compatible versions.
 
-The process will involve multiple industrial stages rather than directly turning an ore into usable nuclear material.
+## Compatibility
 
-Planned stages include:
+Create: Warfare is designed around Minecraft 1.21.1 and NeoForge.
 
-* Uranium ore processing
-* Crushing and chemical processing
-* Uranium extraction
-* Concentration
-* Conversion
-* Isotope separation
-* Enrichment
-* Nuclear fuel production
-* Nuclear waste
-* Radiation hazards
-* Industrial infrastructure requirements
+Compatibility with other mods, particularly those that modify physics, rendering, explosions, or world behaviour, may vary.
 
-Different processing stages will require different machines, fluids, power requirements, and infrastructure.
+## Project Status
 
-### Nuclear Reactors
+Create: Warfare is actively developed. Features, mechanics, balance, and compatibility may change between versions.
 
-Planned nuclear power systems include:
+Some systems may still be experimental or subject to further changes.
 
-* Reactor construction
-* Fuel assemblies
-* Coolant systems
-* Steam production
-* Turbines
-* Generators
-* Reactor control
-* Temperature simulation
-* Pressure simulation
-* Cooling failures
-* Radiation leaks
-* Nuclear waste
-* Emergency shutdown systems
+## Credits
 
-### Nuclear Weapons
+- **Create** — The foundation and inspiration for the mod's mechanical systems.
+- **NeoForge** — Mod loading and development framework.
+- **Sable** — Physics and sublevel functionality.
+- **Flywheel** — Rendering infrastructure.
+- **Ponder** — In-game documentation framework.
+- **Veil** — Rendering and visual effects support.
 
-Planned nuclear weapon systems will connect the industrial side of the mod with the warfare side.
+Special thanks to the developers of the libraries and mods that make this project possible.
 
-Potential systems include:
+---
 
-* Nuclear material requirements
-* Weapon assembly
-* Delivery systems
-* Nuclear detonation
-* Thermal effects
-* Blast effects
-* Radiation
-* Fallout
-* EMP effects
-* Long-term environmental contamination
-
-## Industrial Systems
-
-The mod aims to make advanced weapons require a large industrial infrastructure.
-
-Planned systems include:
-
-* Oil extraction
-* Oil refining
-* Fuel production
-* Chemical processing
-* Steel production
-* Advanced metallurgy
-* Uranium processing
-* Nuclear fuel production
-* Electricity generation
-* Industrial machinery
-* Large-scale factories
-
-## Realism
-
-The goal is not to make everything unnecessarily complicated.
-
-Instead, systems should interact logically.
-
-For example:
-
-**Raw Material → Processing → Refining → Manufacturing → Power → Weapon → Delivery → Effects**
-
-A missile should require more than simply crafting a missile item, and a nuclear reactor should require an actual industrial infrastructure around it.
-
-## Simulation Systems
-
-The mod is designed around interconnected simulation systems.
-
-Examples include:
-
-* Radiation propagation
-* Explosion propagation
-* Blast pressure
-* Fragmentation
+*Create: Warfare — Bringing modern warfare to Create.*

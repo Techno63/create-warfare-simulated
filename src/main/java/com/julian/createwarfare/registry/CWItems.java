@@ -14,6 +14,11 @@ public class CWItems {
             .lang("Natural Uranium")
             .register();
 
+    public static final ItemEntry<Item> YELLOWCAKE = REGISTRATE
+            .item("yellowcake", Item::new)
+            .lang("Yellowcake")
+            .register();
+
     public static final ItemEntry<Item> LOW_ENRICHED_URANIUM = REGISTRATE
             .item("low_enriched_uranium", Item::new)
             .lang("Low-Enriched Uranium")

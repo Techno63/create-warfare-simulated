@@ -58,6 +58,11 @@ repositories {
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }
 
+    maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+    }
+
 }
 
 base {
@@ -130,6 +135,8 @@ dependencies {
 
     implementation("maven.modrinth:oWaK0Q19:${aeronautics_version}")
 
+    implementation("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}")
+
     compileOnly("dev.ryanhcode.sable:sable-common-1.21.1:${sable_version}")
     runtimeOnly("dev.ryanhcode.sable:sable-neoforge-1.21.1:${sable_version}")
 
@@ -145,6 +152,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            aeronautics_mod_version: aeronautics_mod_version,
     ]
     inputs.properties replaceProperties
     expand replaceProperties

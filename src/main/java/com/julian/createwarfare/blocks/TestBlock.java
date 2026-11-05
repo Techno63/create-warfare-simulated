@@ -1,14 +1,20 @@
 package com.julian.createwarfare.blocks;
 
-import com.julian.createwarfare.effects.server.*;
+import com.julian.createwarfare.effects.server.FlashEffect;
+import com.julian.createwarfare.effects.server.GlowEffect;
 import com.julian.createwarfare.effects.server.particles.MushroomCloudParticleEffect;
-import com.julian.createwarfare.effects.server.particles.SplashParticleEffect;
+import com.julian.createwarfare.gui.CWGuiBuilder;
+import com.julian.createwarfare.registry.CWBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class TestBlock extends Block {
 
@@ -16,41 +22,26 @@ public class TestBlock extends Block {
         super(properties);
     }
 
-    private void trigger(
-            Level level,
-            BlockPos pos
-    ) {
-        level.removeBlock(pos, false);
-
-        ServerLevel serverLevel = (ServerLevel) level;
-        Vec3 vec = new Vec3(pos.getX(), pos.getY(), pos.getZ());
-
-        SplashParticleEffect.start(serverLevel, pos, 1f);
-
-        //MushroomCloudParticleEffect.start(serverLevel, pos, 6f);
-        //GlowEffect.start(serverLevel, pos, 2048f, 0xFF8C32, 0.7f, 360, true);
-
-    }
-
-
     @Override
-    public void neighborChanged(
+    protected InteractionResult useWithoutItem(
             BlockState state,
             Level level,
             BlockPos pos,
-            Block block,
-            BlockPos fromPos,
-            boolean isMoving
+            Player player,
+            BlockHitResult hitResult
     ) {
-        if (level.isClientSide) {
-
-            return;
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
         }
 
-        if (!level.hasNeighborSignal(pos)) {
-            return;
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return InteractionResult.PASS;
         }
 
-        trigger(level, pos);
+        MushroomCloudParticleEffect.start((ServerLevel) level, pos, 6f);
+        GlowEffect.start((ServerLevel) level, pos, 512f, 0xFFFF8000, 1.2f, 120, true);
+        FlashEffect.start((ServerLevel) level, pos, 1024f, 1f, 50, 0xFFFFFF, false, false);
+
+        return InteractionResult.CONSUME;
     }
 }

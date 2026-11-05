@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "createwarfare:small_bomb"
+          "name": "createwarfare:short_range_ballistic_missile"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "createwarfare:blocks/small_bomb"
+  "random_sequence": "createwarfare:blocks/short_range_ballistic_missile"
 }
